@@ -2,6 +2,8 @@
 #include "include/ejemplo.h"
 #include <string>
 using namespace std;
+//Struct para la lista, con nodos
+// void ingreso de lista
 void InsercionLista{
     cout<< "Ingrese nombre de la aplicacion"<<endl;
     cin>>Anombre;

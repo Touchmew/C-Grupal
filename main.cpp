@@ -1,13 +1,14 @@
 #include <iostream>
 #include "include/ejemplo.h"
+#include <string>
 using namespace std;
 int main() {
-    cout << "Hola, ALVARADO👋" << std::endl;
+    cout << "Hola, ALVARADO, como te cencuentras?👋" <<endl;
     saludar();
     return 0;
 }
 
-hoaaaaaaaaaa
+//hoaaaaaaaaaa
 //prueben editarlo
 //presente presidente
 //no le cambien el nombre

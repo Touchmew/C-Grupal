@@ -2,7 +2,7 @@
 #include "include/ejemplo.h"
 using namespace std;
 int main() {
-    cout << "Hola, equipo C++ 👋" << std::endl;
+    cout << "Hola, exzcxzcxzc👋" << std::endl;
     saludar();
     return 0;
 }

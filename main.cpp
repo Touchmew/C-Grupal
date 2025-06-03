@@ -2,8 +2,9 @@
 #include "include/ejemplo.h"
 #include <string>
 using namespace std;
+
 int main() {
-    cout << "Hola, ALVARADO, como te cencuentras?👋" <<endl;
+    cout << "Hola, ALVARO, como te cencuentras?👋" <<endl;
     saludar();
     return 0;
 }
@@ -13,3 +14,4 @@ int main() {
 //presente presidente
 //no le cambien el nombre
 // con using namespace std; no se utiliza std::
+//muy bien Equipo

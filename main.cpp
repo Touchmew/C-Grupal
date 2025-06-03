@@ -12,3 +12,4 @@ int main() {
 //prueben editarlo
 //presente presidente
 //no le cambien el nombre
+// con using namespace std; no se utiliza std::

@@ -8,7 +8,7 @@ int main() {
     saludar();
     return 0;
 }
-//a
+//Buen grupo. ustedes pueden.
 //hoaaaaaaaaaa
 //prueben editarlo
 //presente presidente

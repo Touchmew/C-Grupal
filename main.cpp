@@ -305,6 +305,74 @@ void encolarProceso() {
                 if (actual == NULL) final = nuevo;
             }
         }
+// Prioridad baja 
+        else {
+            final->siguiente = nuevo;
+            final = nuevo;
+        }
+    }
+    
+    cout << "Proceso encolado correctamente.\n";
+}
+
+// Desencolar y ejecutar proceso
+void desencolarProceso() {
+    if (colaVacia()) {
+        cout << "No hay procesos en la cola de ejecucion.\n";
+        return;
+    }
+    
+    NodoCola* procesoEjecutar = frente;
+    
+    cout << "\n--- Ejecutando Proceso ---\n";
+    cout << "ID: " << procesoEjecutar->id_Proceso << endl;
+    cout << "Nombre: " << procesoEjecutar->NombreProceso << endl;
+    cout << "Prioridad: " << procesoEjecutar->Prioridad << endl;
+    cout << "Tiempo de ejecucion: " << procesoEjecutar->tiempoEjecucion << " segundos\n";
+    cout << "Proceso ejecutado exitosamente.\n";
+    
+    frente = frente->siguiente;
+    if (frente == NULL) {
+        final = NULL;
+    }
+    
+    delete procesoEjecutar;
+}
+// *** Visualización de la cola actual ***
+
+
+
+// Submenu del Planificador de CPU
+void planificadorCPU() {
+    int opcion;
+    do {
+        cout << "\n--- Planificador de CPU ---\n";
+        cout << "1. Encolar proceso\n";
+        cout << "2. Ejecutar siguiente proceso\n";
+        cout << "3. Visualizar cola de procesos\n";
+        cout << "4. Volver al menu principal\n";
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+        cin.ignore();
+
+        switch (opcion) {
+            case 1: encolarProceso(); break;
+            case 2: desencolarProceso(); break;
+            case 3: 
+                // *** Visualizacion de la cola actual***
+
+
+
+		    
+                // visualizarCola(); 
+                cout << "Funcionalidad pendiente - Falta ";
+                break;
+            case 4: cout << "Volviendo al menu principal...\n"; break;
+            default: cout << "Opcion invalida.\n";
+        }
+    } while (opcion != 4);
+}
+
 
 // Submenu de la opción 1: Gestor de Procesos
 void gestorDeProcesos() {

@@ -1,11 +1,11 @@
 #include <iostream>
 using namespace std;
 
-struc Nodo {
+struct Nodo {
     int id_Proceso;
     string NombreProceso;
     string Estado;
-    string Prioridad
+    string Prioridad;
     Nodo* siguiente;
     
     Nodo(int id, string nomPro, string Es, string Prio) {
@@ -16,6 +16,40 @@ struc Nodo {
         siguiente = NULL;
     }
 };
+// Puntero principal para la lista de procesos
+Nodo* inicio = NULL;
+
+// -------- FUNCIONES --------
+
+// Insertar un nuevo proceso al final
+void insertarProceso() {
+    int id;
+    string nombre, estado, prioridad;
+
+    cout << "Ingrese ID del proceso: ";
+    cin >> id;
+    cin.ignore();
+    cout << "Ingrese nombre del proceso: ";
+    getline(cin, nombre);
+    cout << "Ingrese estado del proceso: ";
+    getline(cin, estado);
+    cout << "Ingrese prioridad del proceso: ";
+    getline(cin, prioridad);
+
+    Nodo* nuevo = new Nodo(id, nombre, estado, prioridad);
+
+    if (inicio == NULL) {
+        inicio = nuevo;
+    } else {
+        Nodo* actual = inicio;
+        while (actual->siguiente != NULL) {
+            actual = actual->siguiente;
+        }
+        actual->siguiente = nuevo;
+    }
+
+    cout << "Proceso insertado correctamente.\n";
+}
 // Eliminar proceso por ID
 void eliminarProceso() {
     int id;
@@ -49,7 +83,52 @@ void eliminarProceso() {
     delete actual;
     cout << "Proceso eliminado correctamente.\n";
 }
+// Buscar proceso por ID o nombre
+void buscarProceso() {
+    int opcion;
+    cout << "Buscar por:\n1. ID\n2. Nombre\nSeleccione una opcion: ";
+    cin >> opcion;
+    cin.ignore();
 
+    if (opcion == 1) {
+        int id;
+        cout << "Ingrese ID: ";
+        cin >> id;
+
+        Nodo* actual = inicio;
+        while (actual != NULL) {
+            if (actual->id_Proceso == id) {
+                cout << "Proceso encontrado: " << actual->NombreProceso
+                     << " | Estado: " << actual->Estado
+                     << " | Prioridad: " << actual->Prioridad << endl;
+                return;
+            }
+            actual = actual->siguiente;
+        }
+
+    } else if (opcion == 2) {
+        string nombre;
+        cout << "Ingrese nombre: ";
+        getline(cin, nombre);
+
+        Nodo* actual = inicio;
+        while (actual != NULL) {
+            if (actual->NombreProceso == nombre) {
+                cout << "Proceso encontrado: ID " << actual->id_Proceso
+                     << " | Estado: " << actual->Estado
+                     << " | Prioridad: " << actual->Prioridad << endl;
+                return;
+            }
+            actual = actual->siguiente;
+        }
+
+    } else {
+        cout << "Opcion invalida.\n";
+        return;
+    }
+
+    cout << "Proceso no encontrado.\n";
+}
 // Modificar prioridad de un proceso por ID
 void modificarPrioridad() {
     int id;

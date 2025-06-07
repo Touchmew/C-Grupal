@@ -1,22 +1,18 @@
 #include <iostream>
-#include "include/ejemplo.h"
-#include <string>
 using namespace std;
-//Struct para la lista, con nodos
-// void ingreso de lista
-void InsercionLista{
-    cout<< "Ingrese nombre de la aplicacion"<<endl;
-    cin>>Anombre;
-}
-int main() {
-    cout << "Hola, ALVARO, como te cencuentras?👋" <<endl;
-    saludar();
-    return 0;
-}
-//Buen grupo. ustedes pueden.
-//hoaaaaaaaaaa
-//prueben editarlo
-//presente presidente
-//no le cambien el nombre
-// con using namespace std; no se utiliza std::
-//muy bien Equipo
+
+struc Nodo {
+    int id_Proceso;
+    string NombreProceso;
+    string Estado;
+    string Prioridad
+    Nodo* siguiente;
+    
+    Nodo(int id, string nomPro, string Es, string Prio) {
+        id_Proceso = id;
+        NombreProceso = nomPro;
+        Estado = Es;
+        Prioridad = Prio;
+        siguiente = NULL;
+    }
+};

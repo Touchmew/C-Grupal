@@ -165,19 +165,24 @@ void modificarPrioridad() {
 void AsignarMemoria(){
  	int id;
  	double tamano;
+	string Nombre;
     cout << "Ingrese ID del proceso: ";
     cin >> id;
+
+    cout << "Ingrese el nombre del proceso: ";
+    cin >> Nombre;
 
     cout << "Ingrese tamaño de memoria (mg): ";
     cin >> tamano;
 
     BloqueMemoria* nuevo = new BloqueMemoria;
     nuevo->idProceso = id;
+    nuevo->Nombre = Nombre;
     nuevo->tamano = tamano;
     nuevo->siguiente = cima;
     cima = nuevo;
 
-    cout << ">> Memoria asignada al proceso " << id << " ( con un tamaño de" << tamano << " mg) | ("<< tamano /1000 <<" Gb)\n";
+    cout << ">> Memoria asignada al proceso: " <<Nombre<<" Id " << id << " ( con un tamaño de" << tamano << " mg) | ("<< tamano /1000 <<" Gb)\n";
 }
 
 void LiberarMemoria(){
@@ -188,7 +193,7 @@ void LiberarMemoria(){
 
     BloqueMemoria* temp = cima;
     cima = cima->siguiente;
-    cout << ">> Memoria liberada del proceso " << temp->idProceso << " (" << temp->tamano << " mg)\n";
+    cout << ">> Memoria liberada del proceso " << temp->idProceso <<" " << temp->Nombre << " (" << temp->tamano << " mg)\n";
     delete temp;
 }
 
@@ -201,7 +206,7 @@ void MostrarMemoria(){
     cout << ">> Estado actual de la memoria (de mas reciente a mas antigua):\n";
     BloqueMemoria* actual = cima;
     while (actual != NULL) {
-        cout << "   - Proceso ID: " << actual->idProceso << ", tamano: " << actual->tamano << " mg\n";
+      	 cout << "   - Proceso ID: " << actual->idProceso << " Nombre:" << actual->Nombre  <<", tamano: " << actual->tamano << " mg\n";
         actual = actual->siguiente;
     }
 }

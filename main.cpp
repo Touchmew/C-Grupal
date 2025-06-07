@@ -244,6 +244,37 @@ void encolarProceso() {
     cin >> tiempo;
     
     NodoCola* nuevo = new NodoCola(id, nombre, prioridad, tiempo);
+// si la cola esta vacia
+    if (colaVacia()) {
+        frente = final = nuevo;
+    } 
+    // insertar segun prioridad
+    else {
+        // si tiene prioridad alta, insertarlo al frente
+        if (prioridad == "Alta") {
+            // buscar posicion correcta entre las prioridades altas
+            if (frente->Prioridad != "Alta") {
+                nuevo->siguiente = frente;
+                frente = nuevo;
+            } else {
+                // insertar entre otros procesos de prioridad alta
+                NodoCola* actual = frente;
+                NodoCola* anterior = NULL;
+                
+                while (actual != NULL && actual->Prioridad == "Alta") {
+                    anterior = actual;
+                    actual = actual->siguiente;
+                }
+                
+                if (anterior == NULL) {
+                    nuevo->siguiente = frente;
+                    frente = nuevo;
+                } else {
+                    anterior->siguiente = nuevo;
+                    nuevo->siguiente = actual;
+                    if (actual == NULL) final = nuevo;
+                }
+            }
 
 
 // Submenu de la opción 1: Gestor de Procesos

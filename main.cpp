@@ -220,10 +220,33 @@ struct NodoCola {
         siguiente = NULL;
     }
 };
+// Punteros para la cola
+NodoCola* frente = NULL;
+NodoCola* final = NULL;
+
+// Funcion para verifiaar si la cola esta vacia
+bool colaVacia() {
+    return frente == NULL;
+}
+// Encolar proceso segun prioridad (Alta, Media, Baja)
+void encolarProceso() {
+    int id, tiempo;
+    string nombre, prioridad;
+    
+    cout << "Ingrese ID del proceso: ";
+    cin >> id;
+    cin.ignore();
+    cout << "Ingrese nombre del proceso: ";
+    getline(cin, nombre);
+    cout << "Ingrese prioridad (Alta/Media/Baja): ";
+    getline(cin, prioridad);
+    cout << "Ingrese tiempo de ejecucion (segundos): ";
+    cin >> tiempo;
+    
+    NodoCola* nuevo = new NodoCola(id, nombre, prioridad, tiempo);
 
 
-
-// Submenú de la opción 1: Gestor de Procesos
+// Submenu de la opción 1: Gestor de Procesos
 void gestorDeProcesos() {
     int opcion;
     do {
@@ -248,9 +271,9 @@ void gestorDeProcesos() {
     } while (opcion != 5);
 }
 
-// Submenú de la opción 2. Planificador de CPU
+// Submenu de la opción 2. Planificador de CPU
 
-//Submenú de la opcion 3. Gestor de Memoria
+//Submenu de la opcion 3. Gestor de Memoria
 void gestorDeMemoria(){
 	    int opcion;
     do {

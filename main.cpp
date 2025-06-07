@@ -179,6 +179,31 @@ void AsignarMemoria(){
     cout << ">> Memoria asignada al proceso " << id << " ( con un tamaño de" << tamano << " mg) | ("<< tamano /1000 <<" Gb)\n";
 }
 
+void LiberarMemoria(){
+    if (cima == NULL) {
+        cout << ">> No hay bloques de memoria para liberar.\n";
+        return;
+    }
+
+    BloqueMemoria* temp = cima;
+    cima = cima->siguiente;
+    cout << ">> Memoria liberada del proceso " << temp->idProceso << " (" << temp->tamano << " mg)\n";
+    delete temp;
+}
+
+void MostrarMemoria(){
+	if (cima == NULL) {
+        cout << ">> La pila de memoria está vacía.\n";
+        return;
+    }
+
+    cout << ">> Estado actual de la memoria (de mas reciente a mas antigua):\n";
+    BloqueMemoria* actual = cima;
+    while (actual != NULL) {
+        cout << "   - Proceso ID: " << actual->idProceso << ", tamano: " << actual->tamano << " mg\n";
+        actual = actual->siguiente;
+    }
+}
 //---------Colas---------------
 struct NodoCola {
     int id_Proceso;

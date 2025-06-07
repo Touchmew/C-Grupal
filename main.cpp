@@ -164,7 +164,21 @@ void modificarPrioridad() {
 
 
 //---------Colas---------------
-
+struct NodoCola {
+    int id_Proceso;
+    string NombreProceso;
+    string Prioridad;
+    int tiempoEjecucion;
+    NodoCola* siguiente;
+    
+    NodoCola(int id, string nomPro, string prio, int tiempo) {
+        id_Proceso = id;
+        NombreProceso = nomPro;
+        Prioridad = prio;
+        tiempoEjecucion = tiempo;
+        siguiente = NULL;
+    }
+};
 
 
 
@@ -235,7 +249,7 @@ int main(){
 
         switch (opcion) {
             case 1: gestorDeProcesos(); break;
-            case 2: /* Planificador de CPU */ break;
+            case 2: planificadorCPU(); break;
             case 3: gestorDeMemoria(); break;
             case 4: cout << "Saliendo del programa...\n"; break;
             default: cout << "Error, ingrese una opcion valida\n";

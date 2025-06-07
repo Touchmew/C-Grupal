@@ -18,7 +18,14 @@ struct Nodo {
 };
 // Puntero principal para la lista de procesos
 Nodo* inicio = NULL;
-
+// Struct para el Gestor de Memoria
+struct BloqueMemoria{
+	int idProceso;
+	double tamano;
+	BloqueMemoria* siguiente;
+};
+// puntero principal para la cima de la pila
+BloqueMemoria* cima = NULL;
 // -------- FUNCIONES --------
 
 // Insertar un nuevo proceso al final

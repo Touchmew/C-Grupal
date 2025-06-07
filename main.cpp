@@ -22,6 +22,7 @@ Nodo* inicio = NULL;
 struct BloqueMemoria{
 	int idProceso;
 	double tamano;
+	string Nombre;
 	BloqueMemoria* siguiente;
 };
 // puntero principal para la cima de la pila

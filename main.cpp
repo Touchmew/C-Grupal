@@ -73,6 +73,15 @@ void modificarPrioridad() {
     cout << "Proceso no encontrado.\n";
 }
 
+//---------Pilas---------------
+
+
+
+//---------Colas---------------
+
+
+
+
 // Submenú de la opción 1: Gestor de Procesos
 void gestorDeProcesos() {
     int opcion;
@@ -98,18 +107,23 @@ void gestorDeProcesos() {
     } while (opcion != 5);
 }
 
+// Submenú de la opción 2. Planificador de CPU
+
+//Submenú de la opcion 3. Gestor de Memoria
+
 
 //Menu principal
 int main(){
     int opcion;
     do {
-        cout << "\n************\n";
+        cout << "\n***************************\n";
         cout << "         MENU PRINCIPAL      \n";
-        cout << "**********\n";
+        cout << "*****************************\n";
         cout << "1. Gestor de Proceso\n";
         cout << "2. Planificador de CPU \n";
         cout << "3. Gestor de Memoria\n";
         cout << "4. Salir\n";
+        cout <<"------------------------------\n";
         cout << "Seleccione una opcion: ";
         cin >> opcion;
         cin.ignore();

@@ -275,7 +275,30 @@ void encolarProceso() {
                     if (actual == NULL) final = nuevo;
                 }
             }
-
+// si tiene prioridad media
+        else if (prioridad == "Media") {
+            NodoCola* actual = frente;
+            NodoCola* anterior = NULL;
+            // buscar posición después de prioridades altas
+            while (actual != NULL && actual->Prioridad == "Alta") {
+                anterior = actual;
+                actual = actual->siguiente;
+            }
+            
+            // insertar entre procesos de prioridad media
+            while (actual != NULL && actual->Prioridad == "Media") {
+                anterior = actual;
+                actual = actual->siguiente;
+            }
+            if (anterior == NULL) {
+                nuevo->siguiente = frente;
+                frente = nuevo;
+            } else {
+                anterior->siguiente = nuevo;
+                nuevo->siguiente = actual;
+                if (actual == NULL) final = nuevo;
+            }
+        }
 
 // Submenu de la opción 1: Gestor de Procesos
 void gestorDeProcesos() {

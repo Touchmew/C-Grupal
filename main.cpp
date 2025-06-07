@@ -93,7 +93,7 @@ void eliminarProceso() {
 // Buscar proceso por ID o nombre
 void buscarProceso() {
     int opcion;
-    cout << "Buscar por:\n1. ID\n2. Nombre\nSeleccione una opcion: ";
+    cout << "Buscar por:\n1. ID\n2. Nombre\nSeleccione una opcion: ";//te da un menu pequenio para buscar por id o nombre
     cin >> opcion;
     cin.ignore();
 

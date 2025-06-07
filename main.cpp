@@ -161,7 +161,23 @@ void modificarPrioridad() {
 
 //---------Pilas---------------
 
+void AsignarMemoria(){
+ 	int id;
+ 	double tamano;
+    cout << "Ingrese ID del proceso: ";
+    cin >> id;
 
+    cout << "Ingrese tamaño de memoria (mg): ";
+    cin >> tamano;
+
+    BloqueMemoria* nuevo = new BloqueMemoria;
+    nuevo->idProceso = id;
+    nuevo->tamano = tamano;
+    nuevo->siguiente = cima;
+    cima = nuevo;
+
+    cout << ">> Memoria asignada al proceso " << id << " ( con un tamaño de" << tamano << " mg) | ("<< tamano /1000 <<" Gb)\n";
+}
 
 //---------Colas---------------
 struct NodoCola {

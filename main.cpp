@@ -160,7 +160,7 @@ void modificarPrioridad() {
 }
 
 //---------Pilas---------------
-
+// asignar la memoria especifica
 void AsignarMemoria(){
  	int id;
  	double tamano;

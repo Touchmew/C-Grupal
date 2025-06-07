@@ -196,7 +196,26 @@ void gestorDeProcesos() {
 // Submenú de la opción 2. Planificador de CPU
 
 //Submenú de la opcion 3. Gestor de Memoria
-
+void gestorDeMemoria(){
+	    int opcion;
+    do {
+        cout << "\n--- Gestor de Memoria ---\n";
+        cout << "1. Asignacion de memoria a procesos (push)\n";
+        cout << "2. Liberacion de memoria (pop)\n";
+        cout << "3. Verificacion del estado actual de la memoria\n";
+        cout << "4. Volver al menu principal\n";
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+        cin.ignore();
+        switch (opcion){
+ 			case 1: AsignarMemoria(); break;
+ 			case 2: LiberarMemoria(); break;
+ 			case 3: MostrarMemoria(); break;
+ 			case 4: cout << "Volviendo al menu principal...\n"; break;
+ 			default: cout << "Opcion invalida.\n";
+		}
+    }while (opcion != 4);
+}
 
 //Menu principal
 int main(){
@@ -217,7 +236,7 @@ int main(){
         switch (opcion) {
             case 1: gestorDeProcesos(); break;
             case 2: /* Planificador de CPU */ break;
-            case 3: /* Gestor de Memoria */ break;
+            case 3: gestorDeMemoria(); break;
             case 4: cout << "Saliendo del programa...\n"; break;
             default: cout << "Error, ingrese una opcion valida\n";
         }

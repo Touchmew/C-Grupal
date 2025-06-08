@@ -209,6 +209,7 @@ void LiberarMemoria(){
     BloqueMemoria* temp = cima;
     cima = cima->siguiente;
 	siguienteID--;
+    memoriaUtilizada -= temp->tamano;
     cout << ">> Memoria liberada del proceso " << temp->idProceso <<" " << temp->Nombre << " (" << temp->tamano << " mg)\n";
     delete temp;
 }

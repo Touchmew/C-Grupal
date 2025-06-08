@@ -186,6 +186,12 @@ void AsignarMemoria(){
 
     cout << "Ingrese tamaño de memoria (mg): ";
     cin >> tamano;
+	
+    if (memoriaUtilizada + tamano > MEMORIA) {
+        cout << ">> No hay suficiente memoria disponible para asignar " << tamano << " mg.\n";
+        return;
+    }
+
 
     BloqueMemoria* nuevo = new BloqueMemoria;
     nuevo->idProceso = id;

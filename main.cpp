@@ -173,10 +173,10 @@ void modificarPrioridad() {
 
 //---------Pilas---------------
 // asignar la memoria especifica
+int siguienteID = 1;
 void AsignarMemoria(){
  	double tamano;
 	string Nombre;
-	int siguienteID = 1;
  	int id = siguienteID++;
 
     cout << "Ingrese el nombre del proceso: ";

@@ -7,9 +7,6 @@
 
 // ==== Prototipos de funciones ====
 void guardarProcesos();
-void guardarCola();
-void guardarPila();
-void LiberarMemoria();
 
 using namespace std;
 //----Nodo de la lista -- 
@@ -277,7 +274,7 @@ void cambiarEstadoProcesoPorID() {
     cout << "Ingrese el ID del proceso que desea cambiar de estado: ";
     cin >> id;
 
-    Nodo* actual = inicio;  // nombre correcto del puntero a la lista
+    Nodo* actual = inicio;
 
     while (actual != NULL) {
         if (actual->id_Proceso == id) {
@@ -292,12 +289,7 @@ void cambiarEstadoProcesoPorID() {
 
             actual->Estado = nuevoEstado;
 
-           if (nuevoEstado == "Terminado") {
-    				LiberarMemoria(); // Llamada correcta
-			}
-			guardarProcesos();
-			guardarCola();
-			guardarPila();
+            guardarProcesos(); // Se guarda el cambio en el archivo
 
             cout << "El estado del proceso ha sido actualizado a '" << nuevoEstado << "' correctamente." << endl;
             return;
@@ -307,6 +299,7 @@ void cambiarEstadoProcesoPorID() {
 
     cout << "No se encontró un proceso con el ID proporcionado." << endl;
 }
+
 //---------Colas---------------
 
 struct NodoCola {

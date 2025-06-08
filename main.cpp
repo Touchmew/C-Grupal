@@ -19,7 +19,7 @@ struct Nodo {
         Prioridad = Prio;
         siguiente = NULL;
 	// Obtener fecha y hora actual
-        time_t now = time(0);
+        time_t now = time(NULL);
         fechaCreacion = ctime(&now);
         // Elimina salto de línea final
 	if (!fechaCreacion.empty() && fechaCreacion[fechaCreacion.length() - 1] == '\n') {

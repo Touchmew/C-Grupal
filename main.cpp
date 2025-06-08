@@ -179,7 +179,8 @@ void eliminarProceso() {
 
 void buscarProceso() {
     int opcion;
-    cout << "Buscar por:\n1. ID\n2. Nombre\nSeleccione una opcion: ";//te da un menu pequenio para buscar por id o nombre
+    cout << "Buscar por:\n1. ID\n2. Nombre\nSeleccione una opcion: ";
+	//te da un menu pequenio para buscar por id o nombre
     cin >> opcion;
     cin.ignore();
 
@@ -308,7 +309,6 @@ void guardarCola() {
 }
 
 void cargarCola() {
-
     ifstream archivo("cola.txt");
     
     if (archivo.is_open()) {
@@ -490,10 +490,102 @@ void visualizarCola() {
 
 //---------Pilas---------------
 
+// Struct para el Gestor de Memoria
+struct BloqueMemoria{
+	int idProceso;
+	double tamano;
+	string Nombre;
+	BloqueMemoria* siguiente;
+};
+// puntero principal para la cima de la pila
+BloqueMemoria* cima = NULL;
+
+// --------Persistencia de datos---------------
+
+void guardarPila() {
+    ofstream archivo("pila.txt");
+    if (!archivo) { cerr << "Error al abrir pila.txt.\n"; return; }
+
+    BloqueMemoria* actual = cima;
+    while (actual) {
+        archivo << actual->idProceso << '|'
+                << actual->Nombre << '|'
+                << actual->tamano << '\n';
+        actual = actual->siguiente;
+    }
+    cout << "Pila guardada.\n";
+}
+
+void cargarPila() {
+    ifstream archivo("pila.txt");
+    if (!archivo.good()) {
+        cout << "Sin datos en la pila guardados.\n";
+        return;
+    }
+
+    // Vaciar pila actual si hay
+    while (cima) {
+        BloqueMemoria* aux = cima;
+        cima = cima->siguiente;
+        delete aux;
+    }
+
+    BloqueMemoria* base = NULL; // último nodo de la pila cargada
+    BloqueMemoria* ultimo = NULL; // puntero para insertar al final
+
+    string linea;
+    while (getline(archivo, linea)) {
+	    if (linea.empty()) continue;
+	    stringstream ss(linea);
+	    string idStr, nombre, tamanoStr;
+	    getline(ss, idStr, '|');
+	    getline(ss, nombre, '|');
+	    getline(ss, tamanoStr);
+	    
+	    if (idStr.empty() || tamanoStr.empty()) {
+	            cout << "Línea malformada: " << linea << endl;
+		    continue;  // salta esta línea 
+	    }
+	    int id;
+	    stringstream ssId(idStr);
+	    ssId >> id;
+	    double tamano;
+	    stringstream ssTam(tamanoStr);
+	    ssTam >> tamano;
+	    BloqueMemoria* nodo = new BloqueMemoria;
+	    nodo->idProceso = id;
+	    nodo->Nombre = nombre;
+	    nodo->tamano = tamano;
+	    nodo->siguiente = NULL;
+	    if (base == NULL) { 
+		    base = nodo;       
+	            ultimo = nodo;
+	    } else {
+	            ultimo->siguiente = nodo;
+	            ultimo = nodo;
+	    }
+    }
+	// Revertir la lista para convertirla en pila
+	BloqueMemoria* prev = NULL;
+	BloqueMemoria* current = base;
+	BloqueMemoria* next = NULL;
+	
+	while (current != NULL) {
+		next = current->siguiente;
+		current->siguiente = prev;
+		prev = current;
+		current = next;
+	}
+	cima = prev; // ahora cima apunta a la cima real de la pila
+	close.Archivo();
+	cout << "Pila cargada correctamente.\n";
+}
+
 // asignar la memoria especifica
 int siguienteID = 1;
 const double MEMORIA = 32000;
 double memoriaUtilizada = 0;
+
 void AsignarMemoria(){
  	double tamano;
 	string Nombre;
@@ -506,7 +598,7 @@ void AsignarMemoria(){
     cin >> tamano;
 	
     if (memoriaUtilizada + tamano > MEMORIA) {
-        cout << ">> No hay suficiente memoria disponible para asignar " << tamano << " mg.\n";
+        cout << ">> No hay suficiente memoria disponible para asignar " << tamano << " MB.\n";
         return;
     }
 
@@ -636,6 +728,10 @@ void gestorDeMemoria(){
 //Menu principal
 int main(){
 	setlocale(LC_CTYPE, "Spanish");
+	cargarProcesos();      // <- lee procesos.txt (si existe) y reconstruye la lista
+	cargarPila();     // Cargar pila de memoria
+	verificarArchivoCola();
+	cargarCola();
     int opcion;
     do {
         cout << "\n***************************\n";
@@ -654,7 +750,11 @@ int main(){
             case 1: gestorDeProcesos(); break;
             case 2: planificadorCPU(); break;
             case 3: gestorDeMemoria(); break;
-            case 4: cout << "Saliendo del programa...\n"; break;
+            case 4: 
+		    guardarProcesos();
+		    guardarPila();
+		    guardarCola();
+		    cout << "Saliendo del programa...\n"; break;
             default: cout << "Error, ingrese una opcion valida\n";
         }
 

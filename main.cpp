@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <ctime>
 using namespace std;
 
 struct Nodo {
@@ -8,6 +9,7 @@ struct Nodo {
     string NombreProceso;
     string Estado;
     string Prioridad;
+    string fechaCreacion;
     Nodo* siguiente;
     
     Nodo(int id, string nomPro, string Es, string Prio) {

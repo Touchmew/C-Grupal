@@ -436,6 +436,7 @@ void gestorDeMemoria(){
 
 //Menu principal
 int main(){
+	setlocale(LC_CTYPE, "Spanish");
     int opcion;
     do {
         cout << "\n***************************\n";

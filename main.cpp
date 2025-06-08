@@ -226,6 +226,9 @@ void MostrarMemoria(){
       	 cout << "   - Proceso ID: " << actual->idProceso << " Nombre:" << actual->Nombre  <<", tamano: " << actual->tamano << " mg\n";
         actual = actual->siguiente;
     }
+    double memoriaRestante = MEMORIA - memoriaUtilizada;
+    double porcentajeRestante = (memoriaRestante / MEMORIA) * 100;
+    cout << ">> Quedan " << porcentajeRestante << "% de memoria disponible.\n";
 }
 //---------Colas---------------
 struct NodoCola {

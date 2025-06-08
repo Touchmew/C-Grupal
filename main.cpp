@@ -174,11 +174,10 @@ void modificarPrioridad() {
 //---------Pilas---------------
 // asignar la memoria especifica
 void AsignarMemoria(){
- 	int id;
  	double tamano;
 	string Nombre;
-    cout << "Ingrese ID del proceso: ";
-    cin >> id;
+	int siguienteID = 1;
+ 	int id = siguienteID++;
 
     cout << "Ingrese el nombre del proceso: ";
     cin >> Nombre;
@@ -193,7 +192,7 @@ void AsignarMemoria(){
     nuevo->siguiente = cima;
     cima = nuevo;
 
-    cout << ">> Memoria asignada al proceso: " <<Nombre<<" Id " << id << " ( con un tamaño de" << tamano << " mg) | ("<< tamano /1000 <<" Gb)\n";
+    cout << ">> Memoria asignada al proceso: " << Nombre << " Id " << id << " (con un tamano de " << tamano << " mg) | (" << tamano / 1000 << " Gb)\n";
 }
 
 void LiberarMemoria(){
@@ -204,6 +203,7 @@ void LiberarMemoria(){
 
     BloqueMemoria* temp = cima;
     cima = cima->siguiente;
+	siguienteID--;
     cout << ">> Memoria liberada del proceso " << temp->idProceso <<" " << temp->Nombre << " (" << temp->tamano << " mg)\n";
     delete temp;
 }

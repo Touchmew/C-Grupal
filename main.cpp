@@ -370,30 +370,6 @@ void visualizarCola() {
     }
 }
 
-// Submenu del Planificador de CPU
-void planificadorCPU() {
-    int opcion;
-    do {
-        cout << "\n--- Planificador de CPU ---\n";
-        cout << "1. Encolar proceso\n";
-        cout << "2. Ejecutar siguiente proceso\n";
-        cout << "3. Visualizar cola de procesos\n";
-        cout << "4. Volver al menu principal\n";
-        cout << "Seleccione una opcion: ";
-        cin >> opcion;
-        cin.ignore();
-
-        switch (opcion) {
-            case 1: encolarProceso(); break;
-            case 2: desencolarProceso(); break;
-            case 3: visualizarCola(); break;
-            case 4: cout << "Volviendo al menu principal...\n"; break;
-            default: cout << "Opcion invalida.\n";
-        }
-    } while (opcion != 4);
-}
-
-
 // Submenu de la opción 1: Gestor de Procesos
 void gestorDeProcesos() {
     int opcion;
@@ -420,7 +396,27 @@ void gestorDeProcesos() {
 }
 
 // Submenu de la opción 2. Planificador de CPU
+void planificadorCPU() {
+    int opcion;
+    do {
+        cout << "\n--- Planificador de CPU ---\n";
+        cout << "1. Encolar proceso\n";
+        cout << "2. Ejecutar siguiente proceso\n";
+        cout << "3. Visualizar cola de procesos\n";
+        cout << "4. Volver al menu principal\n";
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+        cin.ignore();
 
+        switch (opcion) {
+            case 1: encolarProceso(); break;
+            case 2: desencolarProceso(); break;
+            case 3: visualizarCola(); break;
+            case 4: cout << "Volviendo al menu principal...\n"; break;
+            default: cout << "Opcion invalida.\n";
+        }
+    } while (opcion != 4);
+}
 //Submenu de la opcion 3. Gestor de Memoria
 void gestorDeMemoria(){
 	    int opcion;

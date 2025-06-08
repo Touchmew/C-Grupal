@@ -29,7 +29,7 @@ struct Nodo {
 };
 // Puntero principal para la lista de procesos
 Nodo* inicio = NULL;
-
+// --------------------- Funciones de Persistencia ---------------------
 void guardarProcesos() {
 	    ofstream archivo("procesos.txt");
 	    Nodo* actual = inicio;

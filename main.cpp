@@ -111,10 +111,10 @@ void cargarProcesos() {
 void insertarProceso() {
     int id;
     string nombre, estado, prioridad;
-
+    // Solicita al usuario que ingrese el ID del nuevo proceso
     cout << "Ingrese ID del proceso: ";
     cin >> id;
-    cin.ignore();
+    cin.ignore(); // Limpia el buffer
 
     // Verificar si el ID ya existe
     Nodo* actual = inicio;
@@ -123,7 +123,7 @@ void insertarProceso() {
             cout << "Error: Ya existe un proceso con ese ID.\n";
             return;
         }
-        actual = actual->siguiente;
+        actual = actual->siguiente; // Avanza al siguiente nodo
     }
 
     cout << "Ingrese nombre del proceso: ";
@@ -132,15 +132,17 @@ void insertarProceso() {
     getline(cin, estado);
     cout << "Ingrese prioridad del proceso(Baja/Media/Alta): ";
     getline(cin, prioridad);
-
+	
+   // Crea un nuevo nodo con los datos ingresados
     Nodo* nuevo = new Nodo(id, nombre, estado, prioridad);
-
+	
+// Inserta el nodo en la lista enlazada
     if (inicio == NULL) {
         inicio = nuevo;
     } else {
         actual = inicio;
         while (actual->siguiente != NULL) {
-            actual = actual->siguiente;
+            actual = actual->siguiente; // Conecta el último nodo al nuevo
         }
         actual->siguiente = nuevo;
     }

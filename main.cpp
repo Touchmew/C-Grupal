@@ -239,6 +239,23 @@ void modificarPrioridad() {
 
     cout << "Proceso no encontrado.\n";
 }
+void mostrarProcesosConFecha() {
+    if (inicio == NULL) {
+        cout << "No hay procesos registrados.\n";
+        return;
+    }
+
+    Nodo* actual = inicio;
+    cout << "\n--- Lista de Procesos con Fecha de Creación ---\n";
+    while (actual != NULL) {
+        cout << "ID: " << actual->id_Proceso
+             << " | Nombre: " << actual->NombreProceso
+             << " | Estado: " << actual->Estado
+             << " | Prioridad: " << actual->Prioridad
+             << " | Fecha de creación: " << actual->fechaCreacion << endl;
+        actual = actual->siguiente;
+    }
+}
 
 //---------Pilas---------------
 // asignar la memoria especifica

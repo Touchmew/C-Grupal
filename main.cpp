@@ -124,9 +124,9 @@ void insertarProceso() {
 
     cout << "Ingrese nombre del proceso: ";
     getline(cin, nombre);
-    cout << "Ingrese estado del proceso: ";
+    cout << "Ingrese estado del proceso(Activo/Inactivo/Terminado): ";
     getline(cin, estado);
-    cout << "Ingrese prioridad del proceso: ";
+    cout << "Ingrese prioridad del proceso(Baja/Media/Alta): ";
     getline(cin, prioridad);
 
     Nodo* nuevo = new Nodo(id, nombre, estado, prioridad);

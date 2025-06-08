@@ -585,11 +585,13 @@ void cargarPila() {
 	    double tamano;
 	    stringstream ssTam(tamanoStr);
 	    ssTam >> tamano;
+	    // Crea un nuevo nodo de memoria con los datos leídos
 	    BloqueMemoria* nodo = new BloqueMemoria;
 	    nodo->idProceso = id;
 	    nodo->Nombre = nombre;
 	    nodo->tamano = tamano;
 	    nodo->siguiente = NULL;
+	    // Inserta el nodo al final de la lista temporal
 	    if (base == NULL) { 
 		    base = nodo;       
 	            ultimo = nodo;
@@ -602,7 +604,7 @@ void cargarPila() {
 	BloqueMemoria* prev = NULL;
 	BloqueMemoria* current = base;
 	BloqueMemoria* next = NULL;
-	
+	// Invierte los punteros de la lista
 	while (current != NULL) {
 		next = current->siguiente;
 		current->siguiente = prev;

@@ -22,7 +22,7 @@ struct Nodo {
         time_t now = time(NULL);
         fechaCreacion = ctime(&now);
         // Elimina salto de línea final
-	if (!fechaCreacion.empty() && fechaCreacion[fechaCreacion.length() - 1] == '\n') {
+	if (!fechaCreacion.empty() && fechaCreacion[fechaCreacion.back() == '\n') {
     		fechaCreacion.erase(fechaCreacion.length() - 1);
 	}
     }
@@ -498,7 +498,7 @@ void gestorDeProcesos() {
             case 6: cout << "Volviendo al menu principal...\n"; break;
             default: cout << "Opcion invalida.\n";
         }
-    } while (opcion != 5);
+    } while (opcion != 6);
 }
 
 // Submenu de la opción 2. Planificador de CPU

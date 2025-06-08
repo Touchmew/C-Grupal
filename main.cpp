@@ -5,6 +5,12 @@
 #include <ctime>
 #include <clocale>        
 
+// ==== Prototipos de funciones ====
+void guardarProcesos();
+void guardarCola();
+void guardarPila();
+void LiberarMemoria();
+
 using namespace std;
 //----Nodo de la lista -- 
 
@@ -266,6 +272,41 @@ void mostrarProcesosConFecha() {
     }
 }
 
+void cambiarEstadoProcesoPorID() {
+    int id;
+    cout << "Ingrese el ID del proceso que desea cambiar de estado: ";
+    cin >> id;
+
+    Nodo* actual = inicio;  // nombre correcto del puntero a la lista
+
+    while (actual != NULL) {
+        if (actual->id_Proceso == id) {
+            cout << "Estado actual del proceso '" << actual->NombreProceso
+                 << "' (ID: " << actual->id_Proceso << "): "
+                 << actual->Estado << endl;
+
+            cout << "Ingrese el nuevo estado (Activo / Inactivo / Terminado): ";
+            string nuevoEstado;
+            cin.ignore(); // limpiar buffer
+            getline(cin, nuevoEstado);
+
+            actual->Estado = nuevoEstado;
+
+           if (nuevoEstado == "Terminado") {
+    				LiberarMemoria(); // Llamada correcta
+			}
+			guardarProcesos();
+			guardarCola();
+			guardarPila();
+
+            cout << "El estado del proceso ha sido actualizado a '" << nuevoEstado << "' correctamente." << endl;
+            return;
+        }
+        actual = actual->siguiente;
+    }
+
+    cout << "No se encontró un proceso con el ID proporcionado." << endl;
+}
 //---------Colas---------------
 
 struct NodoCola {
@@ -663,7 +704,8 @@ void gestorDeProcesos() {
         cout << "3. Buscar proceso\n";
         cout << "4. Modificar prioridad\n";
 	cout << "5. Mostrar procesos con fecha\n";
-        cout << "6. Volver al menu principal\n";
+        cout << "6. Cambiar estado de un proceso\n";
+        cout << "7. Volver al menu principal\n";
         cout << "Seleccione una opcion: ";
         cin >> opcion;
         cin.ignore();
@@ -674,10 +716,11 @@ void gestorDeProcesos() {
             case 3: buscarProceso(); break;
             case 4: modificarPrioridad(); break;
 	    case 5: mostrarProcesosConFecha(); break;
-            case 6: cout << "Volviendo al menu principal...\n"; break;
-            default: cout << "Opcion invalida.\n";
+	    case 6: cambiarEstadoProcesoPorID();break;
+	    case 7 : cout << "Volviendo al menu principal...\n"; break; 
+	    default: cout << "Opcion invalida.\n";
         }
-    } while (opcion != 6);
+    } while (opcion != 7);
 }
 
 // Submenu de la opción 2. Planificador de CPU

@@ -749,14 +749,15 @@ void planificadorCPU() {
 void gestorDeMemoria(){
 	    int opcion;
     do {
-	cout << "\n======================================\n";
-        cout << "\n--- Gestor de Memoria ---\n";
-        cout << "|    1. Asignacion de memoria a procesos (push)\n";
-        cout << "|    2. Liberacion de memoria (pop)\n";
-        cout << "|    3. Verificacion del estado actual de la memoria\n";
-        cout << "|    4. Volver al menu principal\n";
-        cout << "|    Seleccione una opcion: ";
-	cout << "\n======================================\n";
+        cout << "\n+--------------------------------------------+\n";
+	cout << "¦             Gestor de Memoria              ¦\n";
+	cout << "¦--------------------------------------------¦\n";
+	cout << "¦  1. Asignación de memoria a procesos (push)¦\n";
+	cout << "¦  2. Liberación de memoria (pop)            ¦\n";
+	cout << "¦  3. Ver estado actual de la memoria        ¦\n";
+	cout << "¦  4. Volver al menú principal               ¦\n";
+	cout << "+--------------------------------------------+\n";
+	cout << "Seleccione una opción: ";
         cin >> opcion;
         cin.ignore();
         switch (opcion){

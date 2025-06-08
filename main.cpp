@@ -535,12 +535,12 @@ struct BloqueMemoria{
 BloqueMemoria* cima = NULL;
 
 // --------Persistencia de datos---------------
-
+// Función para guardar la pila en un archivo
 void guardarPila() {
-    ofstream archivo("pila.txt");
+    ofstream archivo("pila.txt");// Abre el archivo para escritura
     if (!archivo) { cerr << "Error al abrir pila.txt.\n"; return; }
 
-    BloqueMemoria* actual = cima;
+    BloqueMemoria* actual = cima;// Comienza desde la cima de la pila
     while (actual) {
         archivo << actual->idProceso << '|'
                 << actual->Nombre << '|'
@@ -549,9 +549,9 @@ void guardarPila() {
     }
     cout << "Pila guardada.\n";
 }
-
+// Función para cargar la pila desde un archivo
 void cargarPila() {
-    ifstream archivo("pila.txt");
+    ifstream archivo("pila.txt"); // Abre el archivo para lectura
     if (!archivo.good()) {
         cout << "Sin datos en la pila guardados.\n";
         return;
@@ -619,9 +619,9 @@ void cargarPila() {
 
 // asignar la memoria especifica
 int siguienteID = 1;
-const double MEMORIA = 32000;
+const double MEMORIA = 32000;// Memoria total disponible (en mg)
 double memoriaUtilizada = 0;
-
+// Función para asignar memoria a un proceso
 void AsignarMemoria(){
  	double tamano;
 	string Nombre;
@@ -632,53 +632,53 @@ void AsignarMemoria(){
 
     cout << "Ingrese tamaño de memoria (mg): ";
     cin >> tamano;
-	
+// Verifica si hay suficiente memoria disponible
     if (memoriaUtilizada + tamano > MEMORIA) {
         cout << ">> No hay suficiente memoria disponible para asignar " << tamano << " MB.\n";
         return;
     }
 
-
+  // Crea un nuevo bloque de memoria
     BloqueMemoria* nuevo = new BloqueMemoria;
-    nuevo->idProceso = id;
+    nuevo->idProceso = id; // Asigna el ID al nuevo bloque
     nuevo->Nombre = Nombre;
     nuevo->tamano = tamano;
-    nuevo->siguiente = cima;
-    cima = nuevo;
+    nuevo->siguiente = cima;// Enlaza el nuevo bloque a la cima actual
+    cima = nuevo; // Actualiza la cima
 
     memoriaUtilizada += tamano; // Actualizar memoria utilizada
-    double memoriaRestante = MEMORIA - memoriaUtilizada;
-    double porcentajeRestante = (memoriaRestante / MEMORIA) * 100;
+    double memoriaRestante = MEMORIA - memoriaUtilizada;// Calcula la memoria restante
+    double porcentajeRestante = (memoriaRestante / MEMORIA) * 100;// Porcentaje de memoria restante
     
     cout << ">> Memoria asignada al proceso: " << Nombre << " Id " << id << " (con un tamano de " << tamano << " mg) | (" << tamano / 1000 << " Gb)\n";
     cout << ">> Quedan " << porcentajeRestante << "% de memoria disponible.\n";
 }
-
+// Función para liberar memoria de un proceso
 void LiberarMemoria(){
-    if (cima == NULL) {
+    if (cima == NULL) {// Verifica si la pila está vacía
         cout << ">> No hay bloques de memoria para liberar.\n";
         return;
     }
 
-    BloqueMemoria* temp = cima;
+    BloqueMemoria* temp = cima;// Almacena el bloque a liberar
     cima = cima->siguiente;
-	siguienteID--;
+	siguienteID--;// Decrementa el ID para la próxima asignación
     memoriaUtilizada -= temp->tamano;
     cout << ">> Memoria liberada del proceso " << temp->idProceso <<" " << temp->Nombre << " (" << temp->tamano << " mg)\n";
-    delete temp;
+    delete temp;// Libera la memoria del bloque
 }
-
+// Función para mostrar el estado actual de la memoria
 void MostrarMemoria(){
-	if (cima == NULL) {
+	if (cima == NULL) { // Verifica si la pila está vacía
         cout << ">> La pila de memoria esta vacia.\n";
         return;
     }
 
     cout << ">> Estado actual de la memoria (de mas reciente a mas antigua):\n";
-    BloqueMemoria* actual = cima;
-    while (actual != NULL) {
+    BloqueMemoria* actual = cima;// Comienza desde la cima de la pila
+    while (actual != NULL) {// Recorre todos los bloques de memoria
       	 cout << "   - Proceso ID: " << actual->idProceso << " Nombre:" << actual->Nombre  <<", tamano: " << actual->tamano << " mg\n";
-        actual = actual->siguiente;
+        actual = actual->siguiente;// Avanza al siguiente bloque
     }
     double memoriaRestante = MEMORIA - memoriaUtilizada;
     double porcentajeRestante = (memoriaRestante / MEMORIA) * 100;

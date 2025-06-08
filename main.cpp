@@ -333,7 +333,7 @@ void guardarCola() {
                     << actual->NombreProceso << "|"
                     << actual->Prioridad << "|"
                     << actual->tiempoEjecucion << "\n";
-            actual = actual->siguiente;
+            actual = actual->siguiente; // Avanza al siguiente nodo
         }
         archivo.close();
         cout << "Cola guardada  exitosamente.\n";
@@ -347,6 +347,7 @@ void cargarCola() {
     
     if (archivo.is_open()) {
         string linea;
+	// Lee el archivo línea por línea
         while (getline(archivo, linea)){
 		stringstream ss(linea);
 		string idStr, nombre, prioridad, tiempoStr;

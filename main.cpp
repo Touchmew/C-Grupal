@@ -350,8 +350,18 @@ void desencolarProceso() {
     delete procesoEjecutar;
 }
 // *** Visualización de la cola actual ***
-
-
+void visualizarCola() {
+    if (colaVacia()) {
+        cout << "No hay procesos en la cola.\n";
+        return;
+    }
+    NodoCola* actual = frente;
+    while (actual) {
+        cout << "ID: " << actual->id_Proceso << " | Nombre: "    << actual->NombreProceso
+        << " | Pri: "   << actual->Prioridad  << " | T: "         << actual->tiempoEjecucion << " s\n";
+        actual = actual->siguiente;
+    }
+}
 
 // Submenu del Planificador de CPU
 void planificadorCPU() {

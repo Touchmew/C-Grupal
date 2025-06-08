@@ -31,69 +31,73 @@ struct Nodo {
 Nodo* inicio = NULL;
 // --------------------- Funciones de Persistencia ---------------------
 void guardarProcesos() {
-	    ofstream archivo("procesos.txt");
-	    Nodo* actual = inicio;
+    ofstream archivo("procesos.txt");
+	if (!archivo) {
+        cerr << "Error al abrir procesos.txt para escritura.\n";
+        return;
+    }
 	
-	    while (actual != NULL) {
-	        archivo << actual->id_Proceso << "|"
-	                << actual->NombreProceso << "|"
-	                << actual->Estado << "|"
-	                << actual->Prioridad << "\n";
-	        actual = actual->siguiente;
-	    }
-	
-	    archivo.close();
-	    cout << "Procesos guardados correctamente.\n";
+    Nodo* actual = inicio;
+    while (actual) {
+	archivo << actual->id_Proceso << "|"
+		<< actual->NombreProceso << "|"
+		<< actual->Estado << "|"
+		<< actual->Prioridad << "\n";
+	actual = actual->siguiente;
+    }
+
+    archivo.close();
+    cout << "Procesos guardados correctamente.\n";
+}
+
+void cargarProcesos() {
+    ifstream archivo("procesos.txt");
+    if (!archivo.good()) {
+	cout << "(Primera ejecución) No se encontraron procesos guardados.\n";
+	return;
+    }
+    string linea;
+    while (getline(archivo, linea)) {
+	if (linea.empty()) continue;
+
+	size_t pos1 = linea.find("|");
+	size_t pos2 = linea.find("|", pos1 + 1);
+	size_t pos3 = linea.find("|", pos2 + 1);
+
+	if (pos1 == string::npos || pos2 == string::npos || pos3 == string::npos) {
+	    cout << "Linea mal formateada: " << linea << endl;
+	    continue;
 	}
-	
-	void cargarProcesos() {
-	    ifstream archivo("procesos.txt");
-	    if (!archivo.good()) {
-	        cout << "(Primera ejecución) No se encontraron procesos guardados.\n";
-	        return;
+
+	try {
+	    int id;
+			stringstream ss(linea.substr(0, pos1));
+			ss >> id;
+	    string nombre = linea.substr(pos1 + 1, pos2 - pos1 - 1);
+	    string estado = linea.substr(pos2 + 1, pos3 - pos2 - 1);
+	    string prioridad = linea.substr(pos3 + 1);
+
+	    Nodo* nuevo = new Nodo(id, nombre, estado, prioridad);
+
+	    if (inicio == NULL) {
+		inicio = nuevo;
+	    } else {
+		Nodo* actual = inicio;
+		while (actual->siguiente != NULL) {
+		    actual = actual->siguiente;
+		}
+		actual->siguiente = nuevo;
 	    }
-	    string linea;
-	    while (getline(archivo, linea)) {
-	        if (linea.empty()) continue;
-	
-	        size_t pos1 = linea.find("|");
-	        size_t pos2 = linea.find("|", pos1 + 1);
-	        size_t pos3 = linea.find("|", pos2 + 1);
-	
-	        if (pos1 == string::npos || pos2 == string::npos || pos3 == string::npos) {
-	            cout << "Linea mal formateada: " << linea << endl;
-	            continue;
-	        }
-	
-	        try {
-	            int id;
-				stringstream ss(linea.substr(0, pos1));
-				ss >> id;
-	            string nombre = linea.substr(pos1 + 1, pos2 - pos1 - 1);
-	            string estado = linea.substr(pos2 + 1, pos3 - pos2 - 1);
-	            string prioridad = linea.substr(pos3 + 1);
-	
-	            Nodo* nuevo = new Nodo(id, nombre, estado, prioridad);
-	
-	            if (inicio == NULL) {
-	                inicio = nuevo;
-	            } else {
-	                Nodo* actual = inicio;
-	                while (actual->siguiente != NULL) {
-	                    actual = actual->siguiente;
-	                }
-	                actual->siguiente = nuevo;
-	            }
-	
-	        } catch (const std::exception& e) {
-	            cout << "Error al procesar linea: " << linea << "\n";
-	            cout << "Mensaje del error: " << e.what() << "\n";
-	        }
-	    }
-	
-	    archivo.close();
-	    cout << "Procesos cargados correctamente.\n";
+
+	} catch (const std::exception& e) {
+	    cout << "Error al procesar linea: " << linea << "\n";
+	    cout << "Mensaje del error: " << e.what() << "\n";
 	}
+    }
+
+    archivo.close();
+    cout << "Procesos cargados correctamente.\n";
+}
 // Struct para el Gestor de Memoria
 struct BloqueMemoria{
 	int idProceso;

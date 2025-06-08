@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 struct Nodo {
@@ -18,6 +20,29 @@ struct Nodo {
 };
 // Puntero principal para la lista de procesos
 Nodo* inicio = NULL;
+
+void guardarProcesos() {
+	    ofstream archivo("procesos.txt");
+	    Nodo* actual = inicio;
+	
+	    while (actual != NULL) {
+	        archivo << actual->id_Proceso << "|"
+	                << actual->NombreProceso << "|"
+	                << actual->Estado << "|"
+	                << actual->Prioridad << "\n";
+	        actual = actual->siguiente;
+	    }
+	
+	    archivo.close();
+	    cout << "Procesos guardados correctamente.\n";
+	}
+	
+	void cargarProcesos() {
+	    ifstream archivo("procesos.txt");
+	    if (!archivo.good()) {
+	        cout << "(Primera ejecución) No se encontraron procesos guardados.\n";
+	        return;
+	    }
 // Struct para el Gestor de Memoria
 struct BloqueMemoria{
 	int idProceso;

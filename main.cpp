@@ -1,8 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
 #include <ctime>
+#include <clocale>        
+
 using namespace std;
+//----Nodo de la lista -- 
 
 struct Nodo {
     int id_Proceso;
@@ -22,30 +26,33 @@ struct Nodo {
         time_t now = time(NULL);
         fechaCreacion = ctime(&now);
         // Elimina salto de línea final
-	if (!fechaCreacion.empty() && fechaCreacion[fechaCreacion.back() == '\n') {
+	if (!fechaCreacion.empty() && fechaCreacion[fechaCreacion.length() - 1] == '\n') {
     		fechaCreacion.erase(fechaCreacion.length() - 1);
 	}
     }
 };
+
 // Puntero principal para la lista de procesos
+
 Nodo* inicio = NULL;
-// --------------------- Funciones de Persistencia ---------------------
+
+// --------------------- Funciones de Persistencia de listas  ---------------------
+
 void guardarProcesos() {
     ofstream archivo("procesos.txt");
-	if (!archivo) {
-        cerr << "Error al abrir procesos.txt para escritura.\n";
-        return;
-    }
-	
-    Nodo* actual = inicio;
-    while (actual) {
-	archivo << actual->id_Proceso << "|"
-		<< actual->NombreProceso << "|"
-		<< actual->Estado << "|"
-		<< actual->Prioridad << "\n";
-	actual = actual->siguiente;
-    }
+    if (!archivo) { 
+		cerr << "Error al abrir procesos.txt.\n"; 
+		return; 
+	}
 
+    for (Nodo* act = inicio; act; act = act->siguiente) {
+        // Incluimos fechaCreacion: así la conservas al volver a ejecutar  
+        archivo << act->id_Proceso        << '|'
+                << act->NombreProceso     << '|'
+                << act->Estado            << '|'
+                << act->Prioridad         << '|'
+                << act->fechaCreacion     << '\n';
+    }
     archivo.close();
     cout << "Procesos guardados correctamente.\n";
 }
@@ -58,58 +65,42 @@ void cargarProcesos() {
     }
     string linea;
     while (getline(archivo, linea)) {
-	if (linea.empty()) continue;
+    	
+        if (linea.empty()) continue;
 
-	size_t pos1 = linea.find("|");
-	size_t pos2 = linea.find("|", pos1 + 1);
-	size_t pos3 = linea.find("|", pos2 + 1);
+        stringstream ss(linea);
+        string idStr, nombre, estado, prioridad, fecha;
+        getline(ss, idStr,     '|');
+        getline(ss, nombre,    '|');
+        getline(ss, estado,    '|');
+        getline(ss, prioridad, '|');
+        getline(ss, fecha);                // puede estar vacía en archivos antiguos
 
-	if (pos1 == string::npos || pos2 == string::npos || pos3 == string::npos) {
-	    cout << "Linea mal formateada: " << linea << endl;
-	    continue;
-	}
+        int id;
+		stringstream ss_id(idStr);
+		ss_id >> id;
 
-	try {
-	    int id;
-			stringstream ss(linea.substr(0, pos1));
-			ss >> id;
-	    string nombre = linea.substr(pos1 + 1, pos2 - pos1 - 1);
-	    string estado = linea.substr(pos2 + 1, pos3 - pos2 - 1);
-	    string prioridad = linea.substr(pos3 + 1);
+        Nodo* nuevo = new Nodo(id, nombre, estado, prioridad);
+        if (!fecha.empty()) nuevo->fechaCreacion = fecha;   // conserva la histórica
 
-	    Nodo* nuevo = new Nodo(id, nombre, estado, prioridad);
-
-	    if (inicio == NULL) {
+        /* inserta al final de la lista */
+        if (!inicio) {
 		inicio = nuevo;
-	    } else {
-		Nodo* actual = inicio;
-		while (actual->siguiente != NULL) {
-		    actual = actual->siguiente;
-		}
-		actual->siguiente = nuevo;
-	    }
-
-	} catch (const std::exception& e) {
-	    cout << "Error al procesar linea: " << linea << "\n";
-	    cout << "Mensaje del error: " << e.what() << "\n";
-	}
+	}else {
+		Nodo* a = inicio; 
+		while (a->siguiente) a = a->siguiente; 
+		a->siguiente = nuevo; 
+    	}
     }
 
     archivo.close();
     cout << "Procesos cargados correctamente.\n";
 }
-// Struct para el Gestor de Memoria
-struct BloqueMemoria{
-	int idProceso;
-	double tamano;
-	string Nombre;
-	BloqueMemoria* siguiente;
-};
-// puntero principal para la cima de la pila
-BloqueMemoria* cima = NULL;
-// -------- FUNCIONES --------
+
+// -------- FUNCIONES DE LISTAS --------
 
 // Insertar un nuevo proceso al final
+
 void insertarProceso() {
     int id;
     string nombre, estado, prioridad;
@@ -146,10 +137,11 @@ void insertarProceso() {
         }
         actual->siguiente = nuevo;
     }
-
     cout << "Proceso insertado correctamente.\n";
 }
+
 // Eliminar proceso por ID
+
 void eliminarProceso() {
     int id;
     cout << "Ingrese el ID del proceso a eliminar: ";
@@ -182,7 +174,9 @@ void eliminarProceso() {
     delete actual;
     cout << "Proceso eliminado correctamente.\n";
 }
+
 // Buscar proceso por ID o nombre
+
 void buscarProceso() {
     int opcion;
     cout << "Buscar por:\n1. ID\n2. Nombre\nSeleccione una opcion: ";//te da un menu pequenio para buscar por id o nombre
@@ -228,7 +222,9 @@ void buscarProceso() {
 
     cout << "Proceso no encontrado.\n";
 }
+
 // Modificar prioridad de un proceso por ID
+
 void modificarPrioridad() {
     int id;
     cout << "Ingrese ID del proceso a modificar: ";
@@ -250,6 +246,7 @@ void modificarPrioridad() {
 
     cout << "Proceso no encontrado.\n";
 }
+//---- Mostrar proceso con la fecha de registro
 void mostrarProcesosConFecha() {
     if (inicio == NULL) {
         cout << "No hay procesos registrados.\n";
@@ -268,7 +265,231 @@ void mostrarProcesosConFecha() {
     }
 }
 
+//---------Colas---------------
+
+struct NodoCola {
+    int id_Proceso;
+    string NombreProceso;
+    string Prioridad;
+    int tiempoEjecucion;
+    NodoCola* siguiente;
+    
+    NodoCola(int id, string nomPro, string prio, int tiempo) {
+        id_Proceso = id;
+        NombreProceso = nomPro;
+        Prioridad = prio;
+        tiempoEjecucion = tiempo;
+        siguiente = NULL;
+    }
+};
+
+// Punteros para la cola
+NodoCola* frente = NULL;
+NodoCola* final = NULL;
+
+// Persistencia --------------
+
+void guardarCola() {
+    ofstream archivo("cola.txt");
+    if (archivo.is_open()) {
+        NodoCola* actual = frente;
+        while (actual != NULL) {
+            archivo << actual->id_Proceso << "|"
+                    << actual->NombreProceso << "|"
+                    << actual->Prioridad << "|"
+                    << actual->tiempoEjecucion << "\n";
+            actual = actual->siguiente;
+        }
+        archivo.close();
+        cout << "Cola guardada  exitosamente.\n";
+    } else {
+        cerr << "Error al abrir archivo para guardar cola.\n";
+    }
+}
+
+void cargarCola() {
+
+    ifstream archivo("cola.txt");
+    
+    if (archivo.is_open()) {
+        string linea;
+        while (getline(archivo, linea)){
+		stringstream ss(linea);
+		string idStr, nombre, prioridad, tiempoStr;
+		getline(ss, idStr, '|');
+		getline(ss, nombre, '|');
+		getline(ss, prioridad, '|');
+		getline(ss, tiempoStr, '|');
+		
+		int id;
+		stringstream ssId(idStr);
+		ssId >> id;
+		
+		int tiempo;
+		stringstream ssTiempo(tiempoStr);
+		ssTiempo >> tiempo;
+
+            NodoCola* nuevo = new NodoCola(id, nombre, prioridad, tiempo);
+            nuevo->siguiente = NULL;
+
+            if (frente == NULL) {
+                frente = final = nuevo;
+            } else {
+                final->siguiente = nuevo;
+                final = nuevo;
+            }
+        }
+        archivo.close();
+        cout << "Cola cargada exitosamente \n";
+    } else {
+        cerr << "No se pudo abrir para cargar.\n";
+    }
+}
+
+void verificarArchivoCola() {
+    ifstream archivo("cola.txt");
+    if (!archivo.is_open()) {
+        ofstream nuevo("cola.txt");
+        if (nuevo.is_open()) {
+            cout << "Archivo 'cola.txt' creado.\n";
+            nuevo.close();
+        } else {
+            cerr << "No se pudo crear 'cola.txt'.\n";
+        }
+    } else {
+        archivo.close();
+    }
+}
+
+
+// Funcion para verifiaar si la cola esta vacia
+bool colaVacia() {
+    return frente == NULL;
+}
+// Encolar proceso segun prioridad (Alta, Media, Baja)
+void encolarProceso() {
+    int id, tiempo;
+    string nombre, prioridad;
+    
+    cout << "Ingrese ID del proceso: ";
+    cin >> id;
+    cin.ignore();
+    cout << "Ingrese nombre del proceso: ";
+    getline(cin, nombre);
+    cout << "Ingrese prioridad (Alta/Media/Baja): ";
+    getline(cin, prioridad);
+    cout << "Ingrese tiempo de ejecucion (segundos): ";
+    cin >> tiempo;
+    
+    NodoCola* nuevo = new NodoCola(id, nombre, prioridad, tiempo);
+// si la cola esta vacia
+    if (colaVacia()) {
+        frente = final = nuevo;
+    } 
+    // insertar segun prioridad
+    else {
+        // si tiene prioridad alta, insertarlo al frente
+        if (prioridad == "Alta") {
+            // buscar posicion correcta entre las prioridades altas
+            if (frente->Prioridad != "Alta") {
+                nuevo->siguiente = frente;
+                frente = nuevo;
+            } else {
+                // insertar entre otros procesos de prioridad alta
+                NodoCola* actual = frente;
+                NodoCola* anterior = NULL;
+                
+                while (actual != NULL && actual->Prioridad == "Alta") {
+                    anterior = actual;
+                    actual = actual->siguiente;
+                }
+                
+                if (anterior == NULL) {
+                    nuevo->siguiente = frente;
+                    frente = nuevo;
+                } else {
+                    anterior->siguiente = nuevo;
+                    nuevo->siguiente = actual;
+                    if (actual == NULL) final = nuevo;
+                }
+            }
+	}
+	// si tiene prioridad media
+        else if (prioridad == "Media") {
+            NodoCola* actual = frente;
+            NodoCola* anterior = NULL;
+            // buscar posición después de prioridades altas
+            while (actual != NULL && actual->Prioridad == "Alta") {
+                anterior = actual;
+                actual = actual->siguiente;
+            }
+            
+            // insertar entre procesos de prioridad media
+            while (actual != NULL && actual->Prioridad == "Media") {
+                anterior = actual;
+                actual = actual->siguiente;
+            }
+            if (anterior == NULL) {
+                nuevo->siguiente = frente;
+                frente = nuevo;
+            } else {
+                anterior->siguiente = nuevo;
+                nuevo->siguiente = actual;
+                if (actual == NULL) final = nuevo;
+            }
+        }
+	// Prioridad baja 
+        else {
+            final->siguiente = nuevo;
+            final = nuevo;
+        }
+    }
+    
+    cout << "Proceso encolado correctamente.\n";
+}
+
+// Desencolar y ejecutar proceso
+
+void desencolarProceso() {
+    if (colaVacia()) {
+        cout << "No hay procesos en la cola de ejecucion.\n";
+        return;
+    }
+    
+    NodoCola* procesoEjecutar = frente;
+    
+    cout << "\n--- Ejecutando Proceso ---\n";
+    cout << "ID: " << procesoEjecutar->id_Proceso << endl;
+    cout << "Nombre: " << procesoEjecutar->NombreProceso << endl;
+    cout << "Prioridad: " << procesoEjecutar->Prioridad << endl;
+    cout << "Tiempo de ejecucion: " << procesoEjecutar->tiempoEjecucion << " segundos\n";
+    cout << "Proceso ejecutado exitosamente.\n";
+    
+    frente = frente->siguiente;
+    if (frente == NULL) {
+        final = NULL;
+    }
+    
+    delete procesoEjecutar;
+}
+// ----- Visualización de la cola actual ------
+
+void visualizarCola() {
+    if (colaVacia()) {
+        cout << "No hay procesos en la cola.\n";
+        return;
+    }
+    NodoCola* actual = frente;
+    cout << "ID: " << actual->id_Proceso
+             << " | Nombre: " << actual->NombreProceso
+             << " | Prioridad: " << actual->Prioridad
+             << " | Tiempo: " << actual->tiempoEjecucion << " s\n";
+        actual = actual->siguiente; 
+    }
+}
+
 //---------Pilas---------------
+
 // asignar la memoria especifica
 int siguienteID = 1;
 const double MEMORIA = 32000;
@@ -335,150 +556,13 @@ void MostrarMemoria(){
     double porcentajeRestante = (memoriaRestante / MEMORIA) * 100;
     cout << ">> Quedan " << porcentajeRestante << "% de memoria disponible.\n";
 }
-//---------Colas---------------
-struct NodoCola {
-    int id_Proceso;
-    string NombreProceso;
-    string Prioridad;
-    int tiempoEjecucion;
-    NodoCola* siguiente;
-    
-    NodoCola(int id, string nomPro, string prio, int tiempo) {
-        id_Proceso = id;
-        NombreProceso = nomPro;
-        Prioridad = prio;
-        tiempoEjecucion = tiempo;
-        siguiente = NULL;
-    }
-};
-// Punteros para la cola
-NodoCola* frente = NULL;
-NodoCola* final = NULL;
 
-// Funcion para verifiaar si la cola esta vacia
-bool colaVacia() {
-    return frente == NULL;
-}
-// Encolar proceso segun prioridad (Alta, Media, Baja)
-void encolarProceso() {
-    int id, tiempo;
-    string nombre, prioridad;
-    
-    cout << "Ingrese ID del proceso: ";
-    cin >> id;
-    cin.ignore();
-    cout << "Ingrese nombre del proceso: ";
-    getline(cin, nombre);
-    cout << "Ingrese prioridad (Alta/Media/Baja): ";
-    getline(cin, prioridad);
-    cout << "Ingrese tiempo de ejecucion (segundos): ";
-    cin >> tiempo;
-    
-    NodoCola* nuevo = new NodoCola(id, nombre, prioridad, tiempo);
-// si la cola esta vacia
-    if (colaVacia()) {
-        frente = final = nuevo;
-    } 
-    // insertar segun prioridad
-    else {
-        // si tiene prioridad alta, insertarlo al frente
-        if (prioridad == "Alta") {
-            // buscar posicion correcta entre las prioridades altas
-            if (frente->Prioridad != "Alta") {
-                nuevo->siguiente = frente;
-                frente = nuevo;
-            } else {
-                // insertar entre otros procesos de prioridad alta
-                NodoCola* actual = frente;
-                NodoCola* anterior = NULL;
-                
-                while (actual != NULL && actual->Prioridad == "Alta") {
-                    anterior = actual;
-                    actual = actual->siguiente;
-                }
-                
-                if (anterior == NULL) {
-                    nuevo->siguiente = frente;
-                    frente = nuevo;
-                } else {
-                    anterior->siguiente = nuevo;
-                    nuevo->siguiente = actual;
-                    if (actual == NULL) final = nuevo;
-                }
-            }
-	}
-// si tiene prioridad media
-        else if (prioridad == "Media") {
-            NodoCola* actual = frente;
-            NodoCola* anterior = NULL;
-            // buscar posición después de prioridades altas
-            while (actual != NULL && actual->Prioridad == "Alta") {
-                anterior = actual;
-                actual = actual->siguiente;
-            }
-            
-            // insertar entre procesos de prioridad media
-            while (actual != NULL && actual->Prioridad == "Media") {
-                anterior = actual;
-                actual = actual->siguiente;
-            }
-            if (anterior == NULL) {
-                nuevo->siguiente = frente;
-                frente = nuevo;
-            } else {
-                anterior->siguiente = nuevo;
-                nuevo->siguiente = actual;
-                if (actual == NULL) final = nuevo;
-            }
-        }
-// Prioridad baja 
-        else {
-            final->siguiente = nuevo;
-            final = nuevo;
-        }
-    }
-    
-    cout << "Proceso encolado correctamente.\n";
-}
 
-// Desencolar y ejecutar proceso
-void desencolarProceso() {
-    if (colaVacia()) {
-        cout << "No hay procesos en la cola de ejecucion.\n";
-        return;
-    }
-    
-    NodoCola* procesoEjecutar = frente;
-    
-    cout << "\n--- Ejecutando Proceso ---\n";
-    cout << "ID: " << procesoEjecutar->id_Proceso << endl;
-    cout << "Nombre: " << procesoEjecutar->NombreProceso << endl;
-    cout << "Prioridad: " << procesoEjecutar->Prioridad << endl;
-    cout << "Tiempo de ejecucion: " << procesoEjecutar->tiempoEjecucion << " segundos\n";
-    cout << "Proceso ejecutado exitosamente.\n";
-    
-    frente = frente->siguiente;
-    if (frente == NULL) {
-        final = NULL;
-    }
-    
-    delete procesoEjecutar;
-}
-// *** Visualización de la cola actual ***
-void visualizarCola() {
-    if (colaVacia()) {
-        cout << "No hay procesos en la cola.\n";
-        return;
-    }
-    NodoCola* actual = frente;
-    while (actual) {
-        cout << "ID: " << actual->id_Proceso << " | Nombre: "    << actual->NombreProceso
-        << " | Pri: "   << actual->Prioridad  << " | T: "         << actual->tiempoEjecucion << " s\n";
-        actual = actual->siguiente;
-    }
-}
+
+//--------- SUB MENUS --------------------------
 
 // Submenu de la opción 1: Gestor de Procesos
+
 void gestorDeProcesos() {
     int opcion;
     do {

@@ -192,7 +192,12 @@ void AsignarMemoria(){
     nuevo->siguiente = cima;
     cima = nuevo;
 
+    memoriaUtilizada += tamano; // Actualizar memoria utilizada
+    double memoriaRestante = MEMORIA - memoriaUtilizada;
+    double porcentajeRestante = (memoriaRestante / MEMORIA) * 100;
+    
     cout << ">> Memoria asignada al proceso: " << Nombre << " Id " << id << " (con un tamano de " << tamano << " mg) | (" << tamano / 1000 << " Gb)\n";
+    cout << ">> Quedan " << porcentajeRestante << "% de memoria disponible.\n";
 }
 
 void LiberarMemoria(){

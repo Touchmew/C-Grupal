@@ -476,7 +476,8 @@ void gestorDeProcesos() {
         cout << "2. Eliminar proceso\n";
         cout << "3. Buscar proceso\n";
         cout << "4. Modificar prioridad\n";
-        cout << "5. Volver al menu principal\n";
+	cout << "5. Mostrar procesos con fecha\n";
+        cout << "6. Volver al menu principal\n";
         cout << "Seleccione una opcion: ";
         cin >> opcion;
         cin.ignore();
@@ -486,7 +487,8 @@ void gestorDeProcesos() {
             case 2: eliminarProceso(); break;
             case 3: buscarProceso(); break;
             case 4: modificarPrioridad(); break;
-            case 5: cout << "Volviendo al menu principal...\n"; break;
+	    case 5: mostrarProcesosConFecha(); break;
+            case 6: cout << "Volviendo al menu principal...\n"; break;
             default: cout << "Opcion invalida.\n";
         }
     } while (opcion != 5);

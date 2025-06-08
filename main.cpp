@@ -174,6 +174,8 @@ void modificarPrioridad() {
 //---------Pilas---------------
 // asignar la memoria especifica
 int siguienteID = 1;
+const double MEMORIA = 32000;
+double memoriaUtilizada = 0;
 void AsignarMemoria(){
  	double tamano;
 	string Nombre;

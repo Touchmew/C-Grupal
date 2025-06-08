@@ -485,7 +485,6 @@ void visualizarCola() {
              << " | Prioridad: " << actual->Prioridad
              << " | Tiempo: " << actual->tiempoEjecucion << " s\n";
         actual = actual->siguiente; 
-    }
 }
 
 //---------Pilas---------------
@@ -577,7 +576,7 @@ void cargarPila() {
 		current = next;
 	}
 	cima = prev; // ahora cima apunta a la cima real de la pila
-	close.Archivo();
+    	archivo.close();
 	cout << "Pila cargada correctamente.\n";
 }
 

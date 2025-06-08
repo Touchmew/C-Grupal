@@ -691,15 +691,17 @@ void MostrarMemoria(){
 void gestorDeProcesos() {
     int opcion;
     do {
+	cout << "\n======================================\n";
         cout << "\n--- Gestor de Procesos ---\n";
-        cout << "1. Insertar proceso\n";
-        cout << "2. Eliminar proceso\n";
-        cout << "3. Buscar proceso\n";
-        cout << "4. Modificar prioridad\n";
-	cout << "5. Mostrar procesos con fecha\n";
-        cout << "6. Cambiar estado de un proceso\n";
-        cout << "7. Volver al menu principal\n";
-        cout << "Seleccione una opcion: ";
+        cout << "|    1. Insertar proceso\n";
+        cout << "|    2. Eliminar proceso\n";
+        cout << "|    3. Buscar proceso\n";
+        cout << "|    4. Modificar prioridad\n";
+	cout << "|    5. Mostrar procesos con fecha\n";
+        cout << "|    6. Cambiar estado de un proceso\n";
+        cout << "|    7. Volver al menu principal\n";
+        cout << "|    Seleccione una opcion: ";
+	cout << "\n======================================\n";
         cin >> opcion;
         cin.ignore();
 
@@ -720,12 +722,14 @@ void gestorDeProcesos() {
 void planificadorCPU() {
     int opcion;
     do {
+	cout << "\n======================================\n";
         cout << "\n--- Planificador de CPU ---\n";
-        cout << "1. Encolar proceso\n";
-        cout << "2. Ejecutar siguiente proceso\n";
-        cout << "3. Visualizar cola de procesos\n";
-        cout << "4. Volver al menu principal\n";
-        cout << "Seleccione una opcion: ";
+        cout << "|    1. Encolar proceso\n";
+        cout << "|    2. Ejecutar siguiente proceso\n";
+        cout << "|    3. Visualizar cola de procesos\n";
+        cout << "|    4. Volver al menu principal\n";
+        cout << "|    Seleccione una opcion: ";
+	cout << "\n======================================\n";
         cin >> opcion;
         cin.ignore();
 
@@ -742,12 +746,14 @@ void planificadorCPU() {
 void gestorDeMemoria(){
 	    int opcion;
     do {
+	cout << "\n======================================\n";
         cout << "\n--- Gestor de Memoria ---\n";
-        cout << "1. Asignacion de memoria a procesos (push)\n";
-        cout << "2. Liberacion de memoria (pop)\n";
-        cout << "3. Verificacion del estado actual de la memoria\n";
-        cout << "4. Volver al menu principal\n";
-        cout << "Seleccione una opcion: ";
+        cout << "|    1. Asignacion de memoria a procesos (push)\n";
+        cout << "|    2. Liberacion de memoria (pop)\n";
+        cout << "|    3. Verificacion del estado actual de la memoria\n";
+        cout << "|    4. Volver al menu principal\n";
+        cout << "|    Seleccione una opcion: ";
+	cout << "\n======================================\n";
         cin >> opcion;
         cin.ignore();
         switch (opcion){

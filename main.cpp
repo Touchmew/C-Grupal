@@ -210,7 +210,7 @@ void LiberarMemoria(){
 
 void MostrarMemoria(){
 	if (cima == NULL) {
-        cout << ">> La pila de memoria está vacía.\n";
+        cout << ">> La pila de memoria esta vacia.\n";
         return;
     }
 

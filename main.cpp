@@ -769,14 +769,14 @@ int main(){
 	cargarCola();
     int opcion;
     do {
-        cout << "\n***************************\n";
+        cout << "\n======================================\n";
         cout << "         MENU PRINCIPAL      \n";
-        cout << "*****************************\n";
-        cout << "1. Gestor de Proceso\n";
-        cout << "2. Planificador de CPU \n";
-        cout << "3. Gestor de Memoria\n";
-        cout << "4. Salir\n";
-        cout <<"------------------------------\n";
+        cout << "\n======================================\n";
+        cout << "|    1. Gestor de Proceso\n";
+        cout << "|    2. Planificador de CPU \n";
+        cout << "|    3. Gestor de Memoria\n";
+        cout << "|    4. Salir\n";
+        cout << "\n======================================\n";
         cout << "Seleccione una opcion: ";
         cin >> opcion;
         cin.ignore();
@@ -789,8 +789,18 @@ int main(){
 		    guardarProcesos();
 		    guardarPila();
 		    guardarCola();
-		    cout << "Saliendo del programa...\n"; break;
-            default: cout << "Error, ingrese una opcion valida\n";
+		    cout << endl;
+                cout << "|==============================================================|" << endl;
+                cout << "|                                                              |" << endl;
+                cout << "|                      Saliendo...                             |" << endl;
+                cout << "|                                                              |" << endl;
+                cout << "|           Gracias por usar Nuestro Programa                  |" << endl;
+                cout << "|                                                              |" << endl;
+                cout << "|==============================================================|" << endl;
+                cout << endl;
+                break;
+            default: 
+                cout << "✗ Error: Ingrese una opción válida (1-4)" << endl;
         }
 
     } while (opcion != 4);

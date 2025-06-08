@@ -386,15 +386,7 @@ void planificadorCPU() {
         switch (opcion) {
             case 1: encolarProceso(); break;
             case 2: desencolarProceso(); break;
-            case 3: 
-                // *** Visualizacion de la cola actual***
-
-
-
-		    
-                // visualizarCola(); 
-                cout << "Funcionalidad pendiente - Falta ";
-                break;
+            case 3: visualizarCola(); break;
             case 4: cout << "Volviendo al menu principal...\n"; break;
             default: cout << "Opcion invalida.\n";
         }

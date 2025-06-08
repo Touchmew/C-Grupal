@@ -62,35 +62,38 @@ void guardarProcesos() {
 }
 //carga los procesos guardados en el archivo txt
 void cargarProcesos() {
-    ifstream archivo("procesos.txt");
+    ifstream archivo("procesos.txt");//abre el archivo txt
     if (!archivo.good()) {
 	cout << "(Primera ejecución) No se encontraron procesos guardados.\n";
-	return;
+	return; //sale de la funcion si no encuentra el archico a leer
     }
     string linea;
+	//lee el archivo linea por linea
     while (getline(archivo, linea)) {
     	
         if (linea.empty()) continue;
-
+	// Se utiliza un stringstream para dividir la línea en campos separados por '|'
         stringstream ss(linea);
         string idStr, nombre, estado, prioridad, fecha;
+	 // Extraemos cada campo individualmente
         getline(ss, idStr,     '|');
         getline(ss, nombre,    '|');
         getline(ss, estado,    '|');
         getline(ss, prioridad, '|');
         getline(ss, fecha);                // puede estar vacía en archivos antiguos
-
+	// Convertimos el ID de string a entero
         int id;
 		stringstream ss_id(idStr);
 		ss_id >> id;
 
         Nodo* nuevo = new Nodo(id, nombre, estado, prioridad);
-        if (!fecha.empty()) nuevo->fechaCreacion = fecha;   // conserva la histórica
+        if (!fecha.empty()) nuevo->fechaCreacion = fecha;   // conserva la fecha de creacion
 
         /* inserta al final de la lista */
         if (!inicio) {
 		inicio = nuevo;
 	}else {
+		// Si ya hay elementos, recorremos hasta el final para insertar
 		Nodo* a = inicio; 
 		while (a->siguiente) a = a->siguiente; 
 		a->siguiente = nuevo; 

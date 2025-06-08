@@ -1,8 +1,8 @@
 #include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <ctime>
+#include <fstream> //se utiliza para crear, abrir, leer y escribir datos en archivos
+#include <sstream> // permite tratar una cadena como flujo
+#include <string> // permite declarar variables tipo std::string
+#include <ctime> // acceder a funciones que manipulan la fecha y la hora local
 #include <clocale>        
 
 // ==== Prototipos de funciones ====
@@ -42,24 +42,25 @@ Nodo* inicio = NULL;
 // --------------------- Funciones de Persistencia de listas  ---------------------
 
 void guardarProcesos() {
-    ofstream archivo("procesos.txt");
-    if (!archivo) { 
+    ofstream archivo("procesos.txt"); //crea un flijo de salida para escribir en un archivo txt
+    if (!archivo) {  //verifica si el archivo se abre correctamente
 		cerr << "Error al abrir procesos.txt.\n"; 
 		return; 
 	}
-
+    //recorre las listas enlazadas comenzando desde el nodo inicio
     for (Nodo* act = inicio; act; act = act->siguiente) {
-        // Incluimos fechaCreacion: así la conservas al volver a ejecutar  
+        // Escribimos los datos de cada proceso en el archivo, separados por '|' 
         archivo << act->id_Proceso        << '|'
                 << act->NombreProceso     << '|'
                 << act->Estado            << '|'
                 << act->Prioridad         << '|'
                 << act->fechaCreacion     << '\n';
     }
+  // Cerramos el archivo una vez que todos los procesos han sido guardados
     archivo.close();
     cout << "Procesos guardados correctamente.\n";
 }
-
+//carga los procesos guardados en el archivo txt
 void cargarProcesos() {
     ifstream archivo("procesos.txt");
     if (!archivo.good()) {

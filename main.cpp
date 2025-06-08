@@ -18,6 +18,10 @@ struct Nodo {
         Estado = Es;
         Prioridad = Prio;
         siguiente = NULL;
+	// Obtener fecha y hora actual
+        time_t now = time(0);
+        fechaCreacion = ctime(&now);
+        // Elimina salto de línea final
     }
 };
 // Puntero principal para la lista de procesos

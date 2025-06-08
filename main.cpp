@@ -292,6 +292,7 @@ void encolarProceso() {
                     if (actual == NULL) final = nuevo;
                 }
             }
+	}
 // si tiene prioridad media
         else if (prioridad == "Media") {
             NodoCola* actual = frente;

@@ -6,11 +6,10 @@ Este es un proyecto colaborativo en C++ donde trabajamos juntos usando Git y Git
 
 - `main.cpp`: Punto de entrada principal del programa.
 - `src/`: Código fuente adicional (implementaciones).
-- `include/`: Archivos importantes.
+- `Planificacion/`: Nuestro Pseudocodigo.
 
 ## ¿Cómo colaborar?
 
-1. Clona este repositorio.
-2. Crea tu rama o edita lo que necesites.
-3. Haz `push` o crea un Pull Request.
+1. Avisa todas tus modificaciones.
+2. No elimines codigo sin saber que hace.
 # Proyecto C++ en grupo 

@@ -37,6 +37,17 @@ void insertarProceso() {
     cout << "Ingrese ID del proceso: ";
     cin >> id;
     cin.ignore();
+
+    // Verificar si el ID ya existe
+    Nodo* actual = inicio;
+    while (actual != NULL) {
+        if (actual->id_Proceso == id) {
+            cout << "Error: Ya existe un proceso con ese ID.\n";
+            return;
+        }
+        actual = actual->siguiente;
+    }
+
     cout << "Ingrese nombre del proceso: ";
     getline(cin, nombre);
     cout << "Ingrese estado del proceso: ";
@@ -49,7 +60,7 @@ void insertarProceso() {
     if (inicio == NULL) {
         inicio = nuevo;
     } else {
-        Nodo* actual = inicio;
+        actual = inicio;
         while (actual->siguiente != NULL) {
             actual = actual->siguiente;
         }

@@ -201,12 +201,13 @@ void buscarProceso() {
         Nodo* actual = inicio;
         while (actual != NULL) {
             if (actual->id_Proceso == id) {
+		    // Si encuentra el ID, muestra los detalles del proceso
                 cout << "Proceso encontrado: " << actual->NombreProceso
                      << " | Estado: " << actual->Estado
                      << " | Prioridad: " << actual->Prioridad << endl;
                 return;
             }
-            actual = actual->siguiente;
+            actual = actual->siguiente; // Continúa con el siguiente nodo
         }
 
     } else if (opcion == 2) {
@@ -216,6 +217,7 @@ void buscarProceso() {
 
         Nodo* actual = inicio;
         while (actual != NULL) {
+		 // Si encuentra el nombre, muestra los detalles del proceso
             if (actual->NombreProceso == nombre) {
                 cout << "Proceso encontrado: ID " << actual->id_Proceso
                      << " | Estado: " << actual->Estado

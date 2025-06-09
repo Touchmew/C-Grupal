@@ -390,9 +390,11 @@ void cargarCola() {
     }
 }
 
+// Verifica si el archivo "cola.txt" existe; si no, lo crea vacío
 void verificarArchivoCola() {
-    ifstream archivo("cola.txt");
+    ifstream archivo("cola.txt");  // Intenta abrir el archivo
     if (!archivo.is_open()) {
+	// Si no existe o no se puede abrir, se crea uno nuevo
         ofstream nuevo("cola.txt");
         if (nuevo.is_open()) {
             cout << "Archivo 'cola.txt' creado.\n";
@@ -401,7 +403,7 @@ void verificarArchivoCola() {
             cerr << "No se pudo crear 'cola.txt'.\n";
         }
     } else {
-        archivo.close();
+        archivo.close(); // Si ya existe, simplemente lo cierra
     }
 }
 

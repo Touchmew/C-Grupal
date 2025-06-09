@@ -336,6 +336,7 @@ void guardarCola() {
     ofstream archivo("cola.txt");
     if (archivo.is_open()) {
         NodoCola* actual = frente;
+	// Recorre todos los nodos de la cola    
         while (actual != NULL) {
             archivo << actual->id_Proceso << "|"
                     << actual->NombreProceso << "|"
@@ -363,7 +364,7 @@ void cargarCola() {
 		getline(ss, nombre, '|');
 		getline(ss, prioridad, '|');
 		getline(ss, tiempoStr, '|');
-		
+		// Convierte los campos numéricos de string a int
 		int id;
 		stringstream ssId(idStr);
 		ssId >> id;

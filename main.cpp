@@ -3,7 +3,7 @@
 #include <sstream> // permite tratar una cadena como flujo
 #include <string> // permite declarar variables tipo std::string
 #include <ctime> // acceder a funciones que manipulan la fecha y la hora local
-#include <clocale>        
+#include <clocale>  // nesesario para el set locale que usamos en el main 
 
 // ==== Prototipos de funciones ====
 void guardarProcesos();
@@ -19,7 +19,7 @@ struct Nodo {
     string fechaCreacion;
     Nodo* siguiente;
     
-    Nodo(int id, string nomPro, string Es, string Prio) {
+    Nodo(int id, string nomPro, string Es, string Prio) { // constructot del nodo de listas
         id_Proceso = id;
         NombreProceso = nomPro;
         Estado = Es;
@@ -104,7 +104,7 @@ void cargarProcesos() {
     cout << "Procesos cargados correctamente.\n";
 }
 
-// -------- FUNCIONES DE LISTAS --------
+// -------- Gestor de Procesos --------
 
 // Insertar un nuevo proceso al final
 
@@ -156,7 +156,7 @@ void eliminarProceso() {
     cout << "Ingrese el ID del proceso a eliminar: ";
     cin >> id;
 
-    if (inicio == NULL) {
+    if (inicio == NULL) { // siel inicio es diferente de nulo
         cout << "La lista esta vacia.\n";
         return;
     }
@@ -164,23 +164,23 @@ void eliminarProceso() {
     Nodo* actual = inicio;
     Nodo* anterior = NULL;
 
-    while (actual != NULL && actual->id_Proceso != id) {
+    while (actual != NULL && actual->id_Proceso != id) { // si el nodo es diferente denulo y su id es igual al ingresado
         anterior = actual;
         actual = actual->siguiente;
     }
 
-    if (actual == NULL) {
+    if (actual == NULL) { // si es nulo  el nodo
         cout << "Proceso no encontrado.\n";
         return;
     }
 
-    if (anterior == NULL) {
+    if (anterior == NULL) { // se asigna el nodo actual al siguiente nodo
         inicio = actual->siguiente;
     } else {
         anterior->siguiente = actual->siguiente;
-    }
+    }// el nodo anterior va a se r el actual
 
-    delete actual;
+    delete actual; // se elimina el nodo actual
     cout << "Proceso eliminado correctamente.\n";
 }
 
@@ -210,7 +210,7 @@ void buscarProceso() {
             actual = actual->siguiente; // Continúa con el siguiente nodo
         }
 
-    } else if (opcion == 2) {
+    } else if (opcion == 2) { // si se busca por el nombre
         string nombre;
         cout << "Ingrese nombre: ";
         getline(cin, nombre);
@@ -224,59 +224,58 @@ void buscarProceso() {
                      << " | Prioridad: " << actual->Prioridad << endl;
                 return;
             }
-            actual = actual->siguiente;
+            actual = actual->siguiente; // rocorremos toda la lista
         }
 
-    } else {
+    } else { // caso contrario nos data error , solo ingresar del 1 al 2
         cout << "Opcion invalida.\n";
         return;
     }
-
     cout << "Proceso no encontrado.\n";
 }
 
 // Modificar prioridad de un proceso por ID
 
 void modificarPrioridad() {
-    int id;
+    int id; // ingresamos un id
     cout << "Ingrese ID del proceso a modificar: ";
     cin >> id;
     cin.ignore();
 
     Nodo* actual = inicio;
-    while (actual != NULL) {
-        if (actual->id_Proceso == id) {
-            string nuevaPrioridad;
+    while (actual != NULL) {// miestras el nodo actual sea diferente de nulo 
+        if (actual->id_Proceso == id) { // si el id de algun nodo es igual al nodo ingresado se 
+            string nuevaPrioridad; //modificara la prioridad
             cout << "Ingrese nueva prioridad: ";
             getline(cin, nuevaPrioridad);
             actual->Prioridad = nuevaPrioridad;
             cout << "Prioridad actualizada correctamente.\n";
             return;
         }
-        actual = actual->siguiente;
+        actual = actual->siguiente; // recorra toda la lsita
     }
 
     cout << "Proceso no encontrado.\n";
 }
-//---- Mostrar proceso con la fecha de registro
+//Mostrar proceso con la fecha de registro
 void mostrarProcesosConFecha() {
-    if (inicio == NULL) {
+    if (inicio == NULL) {// confimamos si es que a lista esta vacia
         cout << "No hay procesos registrados.\n";
         return;
     }
 
-    Nodo* actual = inicio;
+    Nodo* actual = inicio; // el nodo actual es igual a inicio
     cout << "\n--- Lista de Procesos con Fecha de Creación ---\n";
-    while (actual != NULL) {
+    while (actual != NULL) { // si es distinto de nulo , se muestran los datos de los procesos registrados
         cout << "ID: " << actual->id_Proceso
              << " | Nombre: " << actual->NombreProceso
              << " | Estado: " << actual->Estado
              << " | Prioridad: " << actual->Prioridad
              << " | Fecha de creación: " << actual->fechaCreacion << endl;
-        actual = actual->siguiente;
+        actual = actual->siguiente; // para que recorra toda la lista
     }
 }
-
+//Funcion para cambiar el estado del proceso  ya sea activo,inactivo o terminado
 void cambiarEstadoProcesoPorID() {
     int id;
     cout << "Ingrese el ID del proceso que desea cambiar de estado: ";
@@ -284,31 +283,31 @@ void cambiarEstadoProcesoPorID() {
 
     Nodo* actual = inicio;
 
-    while (actual != NULL) {
-        if (actual->id_Proceso == id) {
+    while (actual != NULL) {// si el nodo actual no esta vacio o no es igual a nulo
+        if (actual->id_Proceso == id) { //confirmamos que el id del nodo actual se igual al que ingresamos
             cout << "Estado actual del proceso '" << actual->NombreProceso
                  << "' (ID: " << actual->id_Proceso << "): "
-                 << actual->Estado << endl;
+                 << actual->Estado << endl; // se imprimira el nodo actual con sus datos
 
             cout << "Ingrese el nuevo estado (Activo / Inactivo / Terminado): ";
             string nuevoEstado;
             cin.ignore(); // limpiar buffer
-            getline(cin, nuevoEstado);
+            getline(cin, nuevoEstado);// se ingresa un nuevo estado
 
-            actual->Estado = nuevoEstado;
+            actual->Estado = nuevoEstado; // se le asigna el neuvo estao
 
             guardarProcesos(); // Se guarda el cambio en el archivo
 
             cout << "El estado del proceso ha sido actualizado a '" << nuevoEstado << "' correctamente." << endl;
-            return;
+            return; 
         }
-        actual = actual->siguiente;
+        actual = actual->siguiente; // el nodo actual en caso se nulo para a sel el siguente
     }
 
     cout << "No se encontró un proceso con el ID proporcionado." << endl;
 }
 
-//---------Colas---------------
+//---------PLanificador del CPU---------------
 
 struct NodoCola {
     int id_Proceso;
@@ -317,7 +316,7 @@ struct NodoCola {
     int tiempoEjecucion;
     NodoCola* siguiente;
     
-    NodoCola(int id, string nomPro, string prio, int tiempo) {
+    NodoCola(int id, string nomPro, string prio, int tiempo) {// contructor de la cola
         id_Proceso = id;
         NombreProceso = nomPro;
         Prioridad = prio;
@@ -330,36 +329,36 @@ struct NodoCola {
 NodoCola* frente = NULL;
 NodoCola* final = NULL;
 
-// Persistencia --------------
-
+ //------------Persisencia de Datos en cola---------------------
+// Función para guardar cola en un archivo
 void guardarCola() {
     ofstream archivo("cola.txt");
-    if (archivo.is_open()) {
+    if (archivo.is_open()) { // si el archivo se abre
         NodoCola* actual = frente;
 	// Recorre todos los nodos de la cola    
-        while (actual != NULL) {
-            archivo << actual->id_Proceso << "|"
+        while (actual != NULL) { // comprovamos que el nodo actual es diferente de nulo
+            archivo << actual->id_Proceso << "|"// guardan los datos  ingresados
                     << actual->NombreProceso << "|"
                     << actual->Prioridad << "|"
                     << actual->tiempoEjecucion << "\n";
             actual = actual->siguiente; // Avanza al siguiente nodo
         }
-        archivo.close();
+        archivo.close();/// se cierra el archivo
         cout << "Cola guardada  exitosamente.\n";
-    } else {
+    } else { // si el archivo no abre te mandara un error
         cerr << "Error al abrir archivo para guardar cola.\n";
     }
 }
-
+// Función para cargar la cola desde un archivo
 void cargarCola() {
     ifstream archivo("cola.txt");
     
-    if (archivo.is_open()) {
+    if (archivo.is_open()) { // si el archivo esta abierto 
         string linea;
 	// Lee el archivo línea por línea
         while (getline(archivo, linea)){
 		stringstream ss(linea);
-		string idStr, nombre, prioridad, tiempoStr;
+		string idStr, nombre, prioridad, tiempoStr; // se consideran todos los datos que se han guardado
 		getline(ss, idStr, '|');
 		getline(ss, nombre, '|');
 		getline(ss, prioridad, '|');
@@ -383,9 +382,9 @@ void cargarCola() {
                 final = nuevo;		// Actualiza el final
             }
         }
-        archivo.close();
+        archivo.close();// el archivo se guarda
         cout << "Cola cargada exitosamente \n";
-    } else {
+    } else { // caso contrario nos manda un error
         cerr << "No se pudo abrir para cargar.\n";
     }
 }
@@ -414,9 +413,10 @@ bool colaVacia() {
 }
 // Encolar proceso segun prioridad (Alta, Media, Baja)
 void encolarProceso() {
-    int id, tiempo;
+    int id; 
+    double tiempo;
     string nombre, prioridad;
-    
+    // se ingresan los datos para del proceso
     cout << "Ingrese ID del proceso: ";
     cin >> id;
     cin.ignore();
@@ -444,7 +444,8 @@ void encolarProceso() {
                 // insertar entre otros procesos de prioridad alta
                 NodoCola* actual = frente;
                 NodoCola* anterior = NULL;
-                
+                // mientra el nodo actual sea diferente denulo y  que la proridad sea igual a alta 
+		//entoncesse podra al inico
                 while (actual != NULL && actual->Prioridad == "Alta") {
                     anterior = actual;
                     actual = actual->siguiente;
@@ -458,6 +459,7 @@ void encolarProceso() {
                     nuevo->siguiente = actual;
                     if (actual == NULL) final = nuevo;
                 }
+		    // condicionaeles para ordenar segun la prioridad
             }
 	}
 	// si tiene prioridad media
@@ -489,8 +491,7 @@ void encolarProceso() {
             final->siguiente = nuevo;
             final = nuevo;
         }
-    }
-    
+    }   
     cout << "Proceso encolado correctamente.\n";
 }
 
@@ -518,23 +519,23 @@ void desencolarProceso() {
     
     delete procesoEjecutar;
 }
-// ----- Visualización de la cola actual ------
-
+//Visualización de la cola actual
 void visualizarCola() {
     if (colaVacia()) {
         cout << "No hay procesos en la cola.\n";
         return;
     }
     NodoCola* actual = frente;
-    cout << "ID: " << actual->id_Proceso
-             << " | Nombre: " << actual->NombreProceso
-             << " | Prioridad: " << actual->Prioridad
-             << " | Tiempo: " << actual->tiempoEjecucion << " s\n";
-        actual = actual->siguiente; 
+    while (actual != NULL) {
+	cout << "ID: " << actual->id_Proceso
+	     << " | Nombre: " << actual->NombreProceso
+	     << " | Prioridad: " << actual->Prioridad
+	     << " | Tiempo: " << actual->tiempoEjecucion << " s\n";
+	actual = actual->siguiente;
+    }
 }
 
-//---------Pilas---------------
-
+//---------Gestor de Memoria(Pilas)---------------
 // Struct para el Gestor de Memoria
 struct BloqueMemoria{
 	int idProceso;
@@ -545,7 +546,7 @@ struct BloqueMemoria{
 // puntero principal para la cima de la pila
 BloqueMemoria* cima = NULL;
 
-// --------Persistencia de datos---------------
+// --------Persistencia de datos en la Pila---------------
 // Función para guardar la pila en un archivo
 void guardarPila() {
     ofstream archivo("pila.txt");// Abre el archivo para escritura
@@ -569,7 +570,7 @@ void cargarPila() {
     }
 
     // Vaciar pila actual si hay
-    while (cima) {
+    while (cima) { 
         BloqueMemoria* aux = cima;
         cima = cima->siguiente;
         delete aux;
@@ -628,8 +629,7 @@ void cargarPila() {
 	cout << "Pila cargada correctamente.\n";
 }
 
-// asignar la memoria especifica
-int siguienteID = 1;
+int siguienteID = 1;// asignar la memoria especifica
 const double MEMORIA = 32000;// Memoria total disponible (en mg)
 double memoriaUtilizada = 0;
 // Función para asignar memoria a un proceso
@@ -648,9 +648,7 @@ void AsignarMemoria(){
         cout << ">> No hay suficiente memoria disponible para asignar " << tamano << " MB.\n";
         return;
     }
-
-  // Crea un nuevo bloque de memoria
-    BloqueMemoria* nuevo = new BloqueMemoria;
+    BloqueMemoria* nuevo = new BloqueMemoria;  // Crea un nuevo bloque de memoria
     nuevo->idProceso = id; // Asigna el ID al nuevo bloque
     nuevo->Nombre = Nombre;
     nuevo->tamano = tamano;
@@ -696,12 +694,8 @@ void MostrarMemoria(){
     cout << ">> Quedan " << porcentajeRestante << "% de memoria disponible.\n";
 }
 
-
-
-//--------- SUB MENUS --------------------------
-
+//------------------------Secion de Submenus---------------------------
 // Submenu de la opción 1: Gestor de Procesos
-
 void gestorDeProcesos() {
     int opcion;
     do {

@@ -372,15 +372,15 @@ void cargarCola() {
 		int tiempo;
 		stringstream ssTiempo(tiempoStr);
 		ssTiempo >> tiempo;
-
+	    // Inserta el nodo en la cola
             NodoCola* nuevo = new NodoCola(id, nombre, prioridad, tiempo);
             nuevo->siguiente = NULL;
 
             if (frente == NULL) {
-                frente = final = nuevo;
+                frente = final = nuevo; // Si la cola está vacía, este nodo es el primero y el último
             } else {
-                final->siguiente = nuevo;
-                final = nuevo;
+                final->siguiente = nuevo; // Lo enlaza al final
+                final = nuevo;		// Actualiza el final
             }
         }
         archivo.close();
